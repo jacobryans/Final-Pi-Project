@@ -3,10 +3,8 @@ class MapDefs:
     
     areas = {
         "Old Town" : {
-                "rooms" : [ 5, 7 ],
-                "enemies" : [ "goblin", "zombie", "fox", "ghost", "barbarian" ],
-                "loot" : [ "potion", "rope", "homestone" ],
-                "boss" :  "troll"
+                "rooms" : [ rooms["testroom"],  ],
+                "loot" : [  ]
         },
     }
     
