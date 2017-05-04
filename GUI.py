@@ -1,7 +1,7 @@
 # GUI file that handles the status on the GUI
 # Will handle the sounds and art (background changing etc.) aswell, to be incorporated
 from Tkinter import *
-
+from Defs import *
 class GUI(Frame):
 
     def __init__(self, parent):
@@ -25,7 +25,6 @@ class GUI(Frame):
 
     def start(self):
         self.createGui()
-
     
 
 window = Tk()
