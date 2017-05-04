@@ -1,6 +1,7 @@
 from Engine import *
 from Game import *
 from RPi import *
+from Defs import *
 
 global directions, inverse
 directions = [ "north", "south", "west", "east" ]
@@ -56,13 +57,8 @@ class Area(object):
 			return self._max
 		self._name = value
 	
-	def rooms(self, value=None):
-		if value == None:
-			return self._rooms
-		self._rooms = value
-	
 	def addRoom(self, room):
-		self.rooms.append(room)
+		self.rooms.update({str(room)})
 		
 	def setupRooms(self):
 		first, golden, original, limit = False, False, None, 0
@@ -100,7 +96,7 @@ class Area(object):
 					directions.append(original)
 			else:
 				break
-				
+			
 class Room(object):
 	def __init__(self, name):
                 info = RoomDefs()
@@ -116,6 +112,11 @@ class Room(object):
 		if value == None:
 			return self._name
 		self._name = value
+
+	def background(self, value=None):
+                if value == None:
+                        return self._background
+                self._background = value
 	
 	def items(self, value=None):
 		if (value == None):
@@ -131,14 +132,19 @@ class Room(object):
 		if (value == None):
 			return self._locations
 		self._locations = value
+
+        def exits(self, value=None):
+                if (value == None):
+                        return self._exits
+                self._exits = value
 	
 	# adds an exit to the room, the exit is a string (e.g., north), the room is an instance of a room
 	def addExit(self, exit, room): # append the exit and room to the appropriate lists
 		self.exits.append(exit)
 		self.locations.append(room)
 		# add room exits on the opposite side
-		room.exits.append(inverse[exit])
-		room.locations.append(self)
+		self.exits.append(inverse[exit])
+		self.locations.append(self)
 	
 	# boolean, used to check if there is an exit in a direction
 	def checkExit(self, direction):
@@ -153,12 +159,10 @@ class Item(object):
 	def __init__(self, name):
 		self.name = name
 		self.info = ItemDefs()
-		self.desc = self.info.items[name]["desc"]
-		self.type = self.info.items[name]["type"]
-		self.key = self.info.items[name]["key"]
-		if(self.type == "weapon") or (self.type == "armor"):
-			self.stats = [ self.info.gear[name]["meleeAtk"], self.info.gear[name]["mageAtk"], self.info.gear[name]["meleeDef"], self.info.gear[name]["mageDef"] ]
-		
+		self.desc = self.info.items[str(name)['desc']]
+		self.type = self.info.items[str(name)['type']]
+		self.key = self.info.items[str(name)['key']]
+	
 	def name(self, value=None):
 		if(value == None):
 			return self._name
