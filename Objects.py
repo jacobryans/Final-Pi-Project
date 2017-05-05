@@ -55,14 +55,17 @@ class Area(object):
         self.rooms.append(room)
     
     def setupRooms(self):
+        roomtypes = [ 'main', 'r1', 'r2', 'r3', 'r4', 'r5', 'exit' ]
         first, golden, original, limit = False, False, None, 0
         room = None
+        a = 0
         # add all rooms to the list
         for i in range(self.max+1):
             golden = (first == False) & ((randint(0, 4) == 0) or i == (self.max+1))
             if(golden == True):
                 first = True
-            room = Room(golden)
+            room = Room(str(roomtypes[a]))
+            a += 1
             self.addRoom(room)
             room.doItem(choice(self.items))
         # setup each room with exits, use index to track first room
@@ -192,7 +195,3 @@ class Item(object):
             return self._key
         self._key = value
     
-    def stats(self, value=None):
-        if(value == None):
-            return self._stats
-        self._stats = value
