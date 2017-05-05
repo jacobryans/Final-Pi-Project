@@ -21,6 +21,7 @@ r = pygame.image.load('2.png')
 l = pygame.image.load('3.png')
 u = pygame.image.load('4.png')
 screen.blit(pic1, (0, 0))
+screen.blit(d, (playerx, playery))
 #screen.blit(d, (playerx, playery))
 pygame.display.init()
 pygame.display.update()
@@ -39,18 +40,30 @@ def detection():
             if event.key == pygame.K_LEFT:
                 print "left"
                 playerx -= 10
+                pic = r
+                screen.blit(pic1, (0, 0))
+                screen.blit(pic, (playerx, playery))
             elif event.key == pygame.K_RIGHT:
                 print "right"
                 playerx += 10
+                pic = l
+                screen.blit(pic1, (0, 0))
+                screen.blit(pic, (playerx, playery))
             elif event.key == pygame.K_UP:
                 print "up"
                 playery -= 10
+                pic = u
+                screen.blit(pic1, (0, 0))
+                screen.blit(pic, (playerx, playery))
             elif event.key == pygame.K_DOWN:
                 print "down"
                 playery += 10
+                pic = d
+                screen.blit(pic1, (0, 0))
+                screen.blit(pic, (playerx, playery))
+        
 
 while True:
-    detection()
-    screen.blit(u, (playerx, playery))
+    pic = detection()
     pygame.display.update()
     root.update()      
