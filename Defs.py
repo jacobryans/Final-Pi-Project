@@ -13,30 +13,20 @@ class ItemDefs:
         self.items = items
 
 
-class RoomDefs:
-    global rooms
-    
-    rooms = {
-        'testroom' : {
-            'locked' : False,
-            'background' : 'pic1',
-            'items' : items['testitem'],
-            'desc' : 'A Test Room'
-            },
-        }
-
-    def __init__(self):
-        self.rooms = rooms
-
-
 class MapDefs:
     global areas
     
     areas = {
-        'Old Town' : {
-                'rooms' : [ rooms['testroom'],  ],
-                'loot' : [  ]
+        'ballground' : {
+                'rooms' : [ 5, 7 ],
+                'loot' : [ items['testitem'], ],
+                'name' : "Ballground"
         },
+        'testarea' : {
+                'rooms' : [ 4, 6 ],
+                'loot' : [ items['testitem'], ],
+                'name' : "Foyer"
+        }
     }
     
     def __init__(self):
