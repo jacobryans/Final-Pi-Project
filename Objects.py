@@ -15,13 +15,14 @@ inverse = {
 class Area(object):
     
     def __init__(self, name):
-        self.name = name
         global info
         info = MapDefs()
-        self.rooms = []
         self.area = info.areas[name]
+        self.name = name
+        self.rooms, self.items = [], []
         self.items = self.area['loot']
         self.max = randint(self.area["rooms"][0], self.area["rooms"][1])
+        self.setupRooms()
 
     def __str__(self):
         s = "You are in the game. "
@@ -42,30 +43,33 @@ class Area(object):
         self._rooms = value
         
     def name(self, value=None):
-        if value == None:
+        if (value == None):
             return self._name
         self._name = value
     
     def max(self, value=None):
-        if value == None:
+        if (value == None):
             return self._max
         self._name = value
     
     def addRoom(self, room):
         self.rooms.append(room)
-    
+
+    def area(self, value=None):
+        if (value == None):
+            return self._area
+        self._area = value
     def setupRooms(self):
-        roomtypes = [ 'main', 'r1', 'r2', 'r3', 'r4', 'r5', 'exit' ]
-        first, golden, original, limit = False, False, None, 0
+        roomtypes = [ 'main', 'r1', 'r2', 'r3', 'keyroom', 'r4', 'r5', 'exit' ]
+        original, limit = None, 0
         room = None
-        a = 0
+        a = -1
         # add all rooms to the list
         for i in range(self.max+1):
-            golden = (first == False) & ((randint(0, 4) == 0) or i == (self.max+1))
-            if(golden == True):
-                first = True
+            a +=1
+            #room = Room(str(roomtypes[a]))
+            room = roomtypes[a]
             room = Room(str(roomtypes[a]))
-            a += 1
             self.addRoom(room)
             room.doItem(choice(self.items))
         # setup each room with exits, use index to track first room
@@ -78,16 +82,18 @@ class Area(object):
                 while room.checkExit(direction): # makes sure we get a good direction
                     original = direction # this gets set to re-add it later
                     directions.remove(original)
-                    direction = directions[randint(0, 2)]
+                    direction = directions[randint(0, 3)]
                     directions.remove(direction)
                 limit = i+1 # set new limit
                 if(limit < self.max+1): # new default extra room
-                    room.addExit(direction, self.rooms[limit])
+                    if (str(direction) in room.exits) == False:
+                        room.addExit(direction, self.rooms[limit])
                     
                 if(randint(0, 2) == 0): # random added room 
                     if(limit < self.max):
                         limit += 1 # increment by one
-                        room.addExit(directions[len(directions)-1], self.rooms[limit])
+                        if (str(direction) in room.exits) == False:
+                            room.addExit(directions[len(directions)-1], self.rooms[limit])
                 directions.append(direction)
                 if(original != None):
                     directions.append(original)
@@ -105,15 +111,15 @@ class Room(object):
     def __str__(self):
         s = "You are in a room"
         s += "\n"
-        s += self.name
+        if (len(self.exits) == 0):
+            a = randint(0, 3)
+            b = a1.rooms.index(self)
+            self.addExit(directions[a], a1.rooms[b + 1])
+        s += str(self.exits)
+        
         s += "\n"
         return s
-        
-    def name(self, value=None):
-        if value == None:
-            return self._name
-        self._name = value
-    
+
     def items(self, value=None):
         if (value == None):
             return self._items

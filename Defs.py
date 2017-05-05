@@ -23,7 +23,7 @@ class MapDefs:
                 'name' : "Ballground"
         },
         'testarea' : {
-                'rooms' : [ 4, 6 ],
+                'rooms' : [ 5, 7 ],
                 'loot' : [ items['testitem'], ],
                 'name' : "Foyer"
         }
