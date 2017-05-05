@@ -31,20 +31,26 @@ def draw():
     #button1.pack(side=LEFT)
     root.update()
 
+def detection():
+    for event in pygame.event.get():
+        print "h"
+        global playerx, playery
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                print "left"
+                playerx -= 10
+            elif event.key == pygame.K_RIGHT:
+                print "right"
+                playerx += 10
+            elif event.key == pygame.K_UP:
+                print "up"
+                playery -= 10
+            elif event.key == pygame.K_DOWN:
+                print "down"
+                playery += 10
+
 while True:
-    pressed = pygame.key.get_pressed()
-    if pressed[pygame.K_LEFT]:
-        print "nignog"
-        playerx -= 10
-    elif pressed[pygame.K_RIGHT]:
-        print "nignog"
-        playerx += 10
-    elif pressed[pygame.K_DOWN]:
-        print "nignog"
-        playery -= 10
-    elif pressed[pygame.K_UP]:
-        print "nignog"
-        playery += 10
+    detection()
     screen.blit(u, (playerx, playery))
     pygame.display.update()
     root.update()      
