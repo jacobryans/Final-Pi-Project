@@ -34,7 +34,6 @@ def draw():
 
 def detection():
     for event in pygame.event.get():
-        print "h"
         global playerx, playery
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
