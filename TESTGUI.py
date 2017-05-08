@@ -20,6 +20,8 @@ d = pygame.image.load('1.png')
 r = pygame.image.load('2.png')
 l = pygame.image.load('3.png')
 u = pygame.image.load('4.png')
+door = pygame.image.load('door.png')
+screen.blit(door, (250, 0))
 screen.blit(pic1, (0, 0))
 screen.blit(d, (playerx, playery))
 #screen.blit(d, (playerx, playery))
@@ -63,6 +65,7 @@ def detection():
         
 
 while True:
+    
     pic = detection()
     pygame.display.update()
     root.update()      
