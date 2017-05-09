@@ -64,6 +64,11 @@ def detection():
             elif event.key == pygame.K_LSHIFT:
                 x_speed = 8
                 y_speed = 8
+            print playerx, playery
+        elif playerx >= 210:
+            if playery <= -50:
+                #Need to add go to next room
+                print 'go to next room'
             
         
 
