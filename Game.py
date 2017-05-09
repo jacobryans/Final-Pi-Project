@@ -172,41 +172,85 @@ class Exits(pygame.sprite.Sprite):
         self.rect.centerx = xcord
         self.rect.centery = ycord
 
-    def collide(self, x, y):
+    def collide(self, x, y, exits=None):
         if self.rect.collidepoint(x, y):
-            print 'hit'
+            for exit in exits:
+                if self.px   and directions[3] in self.room.exits: # East Exit
+                    newexit = 'west'
+                    load = True
+                    roomchange(self.room.exits.index(exit))
+                    self.room = currentRoom
+                    if newexit in currentRoom.exits is False:
+                        currentRoom.addExit(newexit)
+                elif self.px < 10 and directions[2] in self.room.exits: # West Exit
+                    newexit = 'east'
+                    load = True
+                    roomchange(self.room.exits.index(exit))
+                    self.room = currentRoom
+                    if newexit in currentRoom.exits is False:
+                        currentRoom.addExit(newexit)
+                elif self.py > 490 and directions[1] in self.room.exits: # South Exit
+                    newexit = 'north'
+                    load = True
+                    roomchange(self.room.exits.index(exit))
+                    self.room = currentRoom
+                    if newexit in currentRoom.exits is False:
+                        currentRoom.addExit(newexit)
+                elif self.py < 10 and directions[0] in self.room.exits: # South Exit
+                    newexit = 'south'
+                    load = True
+                    roomchange(self.room.exits.index(exit))
+                    self.room = currentRoom
+                    if newexit in currentRoom.exits is False:
+                        currentRoom.addExit(newexit)
 
     def setupsprites():
-        exit0_rect = Exits(roomvars[str(currentRoom.name)]['exitlocs'][0])
-        exit1_rect = Exits(roomvars[str(currentRoom.name)]['exitlocs'][1])
-        exit2_rect = Exits(roomvars[str(currentRoom.name)]['exitlocs'][2])
-        exit3_rect = Exits(roomvars[str(currentRoom.name)]['exitlocs'][3])
+        exit0 = Exits(roomvars[str(currentRoom.name)]['exitlocs'][0])
+        exit1 = Exits(roomvars[str(currentRoom.name)]['exitlocs'][1])
+        exit2 = Exits(roomvars[str(currentRoom.name)]['exitlocs'][2])
+        exit3 = Exits(roomvars[str(currentRoom.name)]['exitlocs'][3])
         
-        
-
     def colliding():
-        exit0_rect.collide(player.rect.centerx, player.rect.centery)
-        exit1_rect.collide(player.rect.centerx, player.rect.centery)
-        exit2_rect.collide(player.rect.centerx, player.rect.centery)
-        exit3_rect.collide(player.rect.centerx, player.rect.centery)
+        exit0.collide(player.rect.centerx, player.rect.centery)
+        exit1.collide(player.rect.centerx, player.rect.centery)
+        exit2.collide(player.rect.centerx, player.rect.centery)
+        exit3.collide(player.rect.centerx, player.rect.centery)
+
+    def spriteadd():
+        if (e0 is True) and (exit0 in all_sprites == False):
+            all_sprites.add(exit0)
+        elif (e1 is True) and (exit1 in all_sprites == False):
+            all_sprites.add(exit1)
+        elif (e2 is True) and (exit2 in all_sprites == False):
+            all_sprites.add(exit2)
+        elif (e3 is True) and (exit3 in all_sprites == False):
+            all_sprites.add(exit3)
+
+    def spriterm():
+        if (e0 is False) and (exit0 in all_sprites):
+            all_sprites.remove(exit0)
+        if (e1 is False) and (exit1 in all_sprites):
+            all_sprites.remove(exit1)
+        if (e2 is False) and (exit2 in all_sprites):
+            all_sprites.remove(exit2)
+        if (e3 is False) and (exit3 in all_sprites):
+            all_sprites.remove(exit3)
 
 a1 = Area('testarea')
 global currentRoom
 currentRoom = a1.rooms[0]
 player = Player(a1.rooms[0])
+all_sprites = pygame.sprite.Group()
 
 while True:
     movedetection()
+    spriteadd()
+    all_sprites.update()
+    spriterm()
+    all_sprites.update()
+    all_sprites.draw(screen)
     player.exitdetection(player.room.exits)
-    if e0 == True:
-        pygame.draw.rect(screen, (200, 200, 200), exit0_rect)
-    if e1 == True:
-        pygame.draw.rect(screen, (200, 200, 200), exit1_rect)
-    if e2 == True:
-        pygame.draw.rect(screen, (200, 200, 200), exit2_rect)
-    if e3 == True:
-        pygame.draw.rect(screen, (200, 200, 200), exit3_rect)
-    pygame.draw.rect(screen, (255, 200, 0), player.rect)
+    screen.blit(pic1, (0,0))
     pygame.display.update()
     root.update()
 
