@@ -80,13 +80,15 @@ def movedetection():
                 y_speed = 4
     
         
-class Player(object):
+class Player(pygame.sprite.Sprite):
     
-    def __init__(self, room, px = 250, py = 250):
+    def __init__(self, (px, py), room):
         self.room = room
-        self.px = px
-        self.py = py
-        self.rect = pygame.Rect(32, 32, 16, 16)
+        self.image = pygame.Surface((50, 40))
+        self.image = pygame.image.load('1.png')
+        self.rect = self.image.get_rect()
+        self.rect.centerx = px
+        self.rect.centery = py
 
     def px(self, value=None):
         if (value == None):
@@ -98,17 +100,43 @@ class Player(object):
             return self._py
         self._py = value
 
-    def move(self, x_speed, y_speed):
+    def move(self, x, y):
         # Move each axis separately. Note that this checks for collisions both times.
-        if self.rect.x > 0 and self.rect.x < 500:
-            self.move_single_axis(x_speed, 0)
-        if self.rect.y > 0 and self.rect.y < 500:
-            self.move_single_axis(0, y_speed)
+        self.player.center[0] += x
+        self.player.center[1] += y
+##        if self.rect.x > 0 and self.rect.x < 500:
+##            self.move_single_axis(x_speed, 0)
+##        if self.rect.y > 0 and self.rect.y < 500:
+##            self.move_single_axis(0, y_speed)
     
-    def move_single_axis(self, x_speed, y_speed):
-        # Move the rect
-        self.rect.x += x_speed
-        self.rect.y += y_speed
+    def update(self):
+        # Move the player
+        self.speedx = 0
+        self.speedy = 0
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_LEFT]:
+                self.image = pygame.image.load('2.png')
+                self.rect.centerx -= 5
+        if keystate[pygame.K_RIGHT]:
+                self.image = pygame.image.load('3.png')
+                self.rect.centerx += 5
+        if keystate[pygame.K_UP]:
+                self.image = pygame.image.load('4.png')
+                self.rect.centery -= 5
+        if keystate[pygame.K_DOWN]:
+                self.image = pygame.image.load('1.png')
+                self.rect.centery += 5
+        self.rect.x += self.speedx
+        if self.rect.right > 500:
+                self.rect.right = 500
+        if self.rect.left < 0:
+                self.rect.left = 0
+        if self.rect.bottom > 500:
+                self.rect.bottom = 500
+        if self.rect.top < 0:
+                self.rect.top = 0
+##        self.rect.x += x_speed
+##        self.rect.y += y_speed
 
         # If you collide with a exit, move to the next room
     def exitdetection(self, exits):
@@ -190,13 +218,14 @@ class Exits(pygame.sprite.Sprite):
         exit2_rect.collide(player.rect.centerx, player.rect.centery)
         exit3_rect.collide(player.rect.centerx, player.rect.centery)
 
+
 a1 = Area('testarea')
 global currentRoom
 currentRoom = a1.rooms[0]
-player = Player(a1.rooms[0])
+player = Player((5,5),a1.rooms[0])
 
 while True:
-    movedetection()
+    colliding()
     player.exitdetection(player.room.exits)
     if e0 == True:
         pygame.draw.rect(screen, (200, 200, 200), exit0_rect)
