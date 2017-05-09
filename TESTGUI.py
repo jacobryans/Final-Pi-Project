@@ -17,9 +17,10 @@ screen = pygame.display.set_mode((500,500))
 screen.fill(pygame.Color(60,60,100))
 pic1 = pygame.image.load('Background.gif')
 d = pygame.image.load('1.png')
-r = pygame.image.load('2.png')
-l = pygame.image.load('3.png')
+l = pygame.image.load('2.png')
+r = pygame.image.load('3.png')
 u = pygame.image.load('4.png')
+pygame.key.set_repeat(1, 20) 
 door = pygame.image.load('door.png')
 screen.blit(door, (250, 0))
 screen.blit(pic1, (0, 0))
@@ -35,37 +36,38 @@ def draw():
     root.update()
 
 def detection():
+    x_speed = 4
+    y_speed = 4
     for event in pygame.event.get():
         global playerx, playery
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                print "left"
-                playerx -= 10
-                pic = r
-                screen.blit(pic1, (0, 0))
+                pic = l
+                playerx -= x_speed
+                screen.blit(pic1, (0,0))
                 screen.blit(pic, (playerx, playery))
             elif event.key == pygame.K_RIGHT:
-                print "right"
-                playerx += 10
-                pic = l
+                pic = r
+                playerx += x_speed
                 screen.blit(pic1, (0, 0))
                 screen.blit(pic, (playerx, playery))
             elif event.key == pygame.K_UP:
-                print "up"
-                playery -= 10
                 pic = u
+                playery -= y_speed
                 screen.blit(pic1, (0, 0))
                 screen.blit(pic, (playerx, playery))
             elif event.key == pygame.K_DOWN:
-                print "down"
-                playery += 10
                 pic = d
+                playery += y_speed
                 screen.blit(pic1, (0, 0))
                 screen.blit(pic, (playerx, playery))
+            elif event.key == pygame.K_LSHIFT:
+                x_speed = 8
+                y_speed = 8
+            
         
 
 while True:
-    
     pic = detection()
     pygame.display.update()
     root.update()      
