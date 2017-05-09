@@ -15,6 +15,7 @@ class ItemDefs:
 
 class MapDefs:
     global areas
+    global roomvars
     
     areas = {
         'ballground' : {
@@ -28,8 +29,58 @@ class MapDefs:
                 'name' : "Foyer"
         }
     }
+
+    roomvars = {
+        # for exitlocs, its [(north), (south), (east), (west)]
+        'main' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        },
+        'r1' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        },
+        'r2' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        },
+        'r3' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        },
+        'key' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        },
+        'r4' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        },
+        'r5' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        },
+        'r6' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        },
+        'exit' : {
+            'soundtracks' : ['s1', 's2', 's3', 's4'],
+            'backgrounds' : ['b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7'],
+            'exitlocs' : [(0, 0), (100, 100), (200, 200)]
+        }
+    }
     
     def __init__(self):
+        self.roomvars = roomvars
         self.areas = areas
 
         
