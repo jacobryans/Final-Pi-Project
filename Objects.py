@@ -94,7 +94,7 @@ class Area(object):
                         limit += 1 # increment by one
                         if (str(direction) in room.exits) == False:
                             room.addExit(directions[len(directions)-1], self.rooms[limit])
-                directions.append(direction)
+                            directions.append(direction)
                 if(original != None):
                     directions.append(original)
             else:
