@@ -22,68 +22,58 @@ d = pygame.image.load('1.png')
 l = pygame.image.load('2.png')
 r = pygame.image.load('3.png')
 u = pygame.image.load('4.png')
+e0 = False
+e1 = False
+e2 = False
+e3 = False
 pygame.key.set_repeat(1, 20) 
 door = pygame.image.load('door.png')
 screen.blit(door, (250, 0))
 screen.blit(pic1, (0, 0))
-screen.blit(d, (250, 250))
+#screen.blit(d, (250, 250))
 pygame.display.init()
 pygame.display.update()
 
-def movedetection():
-    x_speed = 4
-    y_speed = 4
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LSHIFT:
-                x_speed = 8
-                y_speed = 8
-            elif event.key == pygame.K_LEFT:
-                pic = l
-                if player.px > 0 and player.px < 500:
-                    player.move(-x_speed, 0)
-                    player.px -= x_speed
-                else:
-                    player.px = 50
-                screen.blit(pic1, (0,0))
-                screen.blit(pic, (player.px, player.py))
-            elif event.key == pygame.K_RIGHT:
-                pic = r
-                if player.px > 0 and player.px < 500:
-                    player.move(x_speed,0)
-                    player.px += x_speed
-                else:
-                    player.px = 450
-                screen.blit(pic1, (0, 0))
-                screen.blit(pic, (player.px, player.py))
-            elif event.key == pygame.K_UP:
-                pic = u
-                if player.py > 0 and player.py < 500:
-                    player.py -= y_speed
-                    player.move(0, y_speed)
-                else:
-                    player.py = 50
-                screen.blit(pic1, (0, 0))
-                screen.blit(pic, (player.px, player.py))
-            elif event.key == pygame.K_DOWN:
-                pic = d
-                if player.py > 0 and player.py < 500:
-                    player.py += y_speed
-                    player.move(0, -y_speed)
-                else:
-                    player.py = 450
-                screen.blit(pic1, (0, 0))
-                screen.blit(pic, (player.px, player.py))
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LSHIFT:
-                x_speed = 4
-                y_speed = 4
-    
-        
-class Player(pygame.sprite.Sprite):
-    
-    def __init__(self, (px, py), room):
+class Player(object):
+    def __init__(self, room):
         self.room = room
+
+##    def collide(self, x = psprite.px, y = psprite.py, exits=None):
+##        if self.rect.collidepoint(x, y):
+##            for exit in exits:
+##                if psprite.px   and directions[3] in self.room.exits: # East Exit
+##                    newexit = 'west'
+##                    load = True
+##                    roomchange(self.room.exits.index(exit))
+##                    self.room = currentRoom
+##                    if newexit in currentRoom.exits is False:
+##                        currentRoom.addExit(newexit)
+##                elif psprite.px < 10 and directions[2] in self.room.exits: # West Exit
+##                    newexit = 'east'
+##                    load = True
+##                    roomchange(self.room.exits.index(exit))
+##                    self.room = currentRoom
+##                    if newexit in currentRoom.exits is False:
+##                        currentRoom.addExit(newexit)
+##                elif psprite.py > 490 and directions[1] in self.room.exits: # South Exit
+##                    newexit = 'north'
+##                    load = True
+##                    roomchange(self.room.exits.index(exit))
+##                    self.room = currentRoom
+##                    if newexit in currentRoom.exits is False:
+##                        currentRoom.addExit(newexit)
+##                elif psprite.py < 10 and directions[0] in self.room.exits: # South Exit
+##                    newexit = 'south'
+##                    load = True
+##                    roomchange(self.room.exits.index(exit))
+##                    self.room = currentRoom
+##                    if newexit in currentRoom.exits is False:
+##                        currentRoom.addExit(newexit)
+
+class PlayerSprite(pygame.sprite.Sprite):
+    
+    def __init__(self, px ,py):
+        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50, 40))
         self.image = pygame.image.load('1.png')
         self.rect = self.image.get_rect()
@@ -102,31 +92,27 @@ class Player(pygame.sprite.Sprite):
 
     def move(self, x, y):
         # Move each axis separately. Note that this checks for collisions both times.
-        self.player.center[0] += x
-        self.player.center[1] += y
-##        if self.rect.x > 0 and self.rect.x < 500:
-##            self.move_single_axis(x_speed, 0)
-##        if self.rect.y > 0 and self.rect.y < 500:
-##            self.move_single_axis(0, y_speed)
-    
+        self.player.center[0]
+        self.player.center[1]
+
     def update(self):
-        # Move the player
-        self.speedx = 0
-        self.speedy = 0
+        self.speedx = 1
+        self.speedy = 1
+        if self.rect.collidepoint(500, 500):
+            colliding()
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
                 self.image = pygame.image.load('2.png')
-                self.rect.centerx -= 5
+                self.rect.centerx -= 1
         if keystate[pygame.K_RIGHT]:
                 self.image = pygame.image.load('3.png')
-                self.rect.centerx += 5
+                self.rect.centerx += 1
         if keystate[pygame.K_UP]:
                 self.image = pygame.image.load('4.png')
-                self.rect.centery -= 5
+                self.rect.centery -= 1
         if keystate[pygame.K_DOWN]:
                 self.image = pygame.image.load('1.png')
-                self.rect.centery += 5
-        self.rect.x += self.speedx
+                self.rect.centery += 1
         if self.rect.right > 500:
                 self.rect.right = 500
         if self.rect.left < 0:
@@ -135,41 +121,6 @@ class Player(pygame.sprite.Sprite):
                 self.rect.bottom = 500
         if self.rect.top < 0:
                 self.rect.top = 0
-##        self.rect.x += x_speed
-##        self.rect.y += y_speed
-
-        # If you collide with a exit, move to the next room
-    def exitdetection(self, exits):
-        for exit in exits:
-            if self.rect.colliderect(exit_rect):
-                if self.px > 490  and directions[3] in self.room.exits: # East Exit
-                    newexit = 'west'
-                    load = True
-                    roomchange(self.room.exits.index(exit))
-                    self.room = currentRoom
-                    if newexit in currentRoom.exits is False:
-                        currentRoom.addExit(newexit)
-                elif self.px < 10 and directions[2] in self.room.exits: # West Exit
-                    newexit = 'east'
-                    load = True
-                    roomchange(self.room.exits.index(exit))
-                    self.room = currentRoom
-                    if newexit in currentRoom.exits is False:
-                        currentRoom.addExit(newexit)
-                elif self.py > 490 and directions[1] in self.room.exits: # South Exit
-                    newexit = 'north'
-                    load = True
-                    roomchange(self.room.exits.index(exit))
-                    self.room = currentRoom
-                    if newexit in currentRoom.exits is False:
-                        currentRoom.addExit(newexit)
-                elif self.py < 10 and directions[0] in self.room.exits: # South Exit
-                    newexit = 'south'
-                    load = True
-                    roomchange(self.room.exits.index(exit))
-                    self.room = currentRoom
-                    if newexit in currentRoom.exits is False:
-                        currentRoom.addExit(newexit)
 
     def roomchange(self, index):
         while load == True:
@@ -192,7 +143,7 @@ class Player(pygame.sprite.Sprite):
             #e0, e1, e2, e3 = False
 
 class Exits(pygame.sprite.Sprite):
-    def __init__(self, xcord, ycord):
+    def __init__(self, (xcord, ycord)):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50,40))
         self.image = door
@@ -200,42 +151,93 @@ class Exits(pygame.sprite.Sprite):
         self.rect.centerx = xcord
         self.rect.centery = ycord
 
-    def collide(self, x, y):
+    def collide(self, x, y, exits=None):
         if self.rect.collidepoint(x, y):
-            print 'hit'
+            for exit in exits:
+                if x > 490 and directions[3] in player.room.exits: # East Exit
+                    newexit = 'west'
+                    load = True
+                    player.room = currentRoom
+                    roomchange(self.room.exits.index(exit))
+                    if newexit in currentRoom.exits is False:
+                        currentRoom.addExit(newexit)
+                elif x < 10 and directions[2] in player.room.exits: # West Exit
+                    newexit = 'east'
+                    load = True
+                    player.room = currentRoom
+                    roomchange(self.room.exits.index(exit))
+                    if newexit in currentRoom.exits is False:
+                        currentRoom.addExit(newexit)
+                elif y > 490 and directions[1] in player.room.exits: # South Exit
+                    newexit = 'north'
+                    load = True
+                    player.room = currentRoom
+                    roomchange(self.room.exits.index(exit))
+                    if newexit in currentRoom.exits is False:
+                        currentRoom.addExit(newexit)
+                elif y < 10 and directions[0] in player.room.exits: # South Exit
+                    newexit = 'south'
+                    load = True
+                    player.room = currentRoom
+                    roomchange(self.room.exits.index(exit))
+                    if newexit in currentRoom.exits is False:
+                        currentRoom.addExit(newexit)
+                else:
+                    break
 
-    def setupsprites():
-        exit0_rect = Exits(roomvars[str(currentRoom.name)]['exitlocs'][0])
-        exit1_rect = Exits(roomvars[str(currentRoom.name)]['exitlocs'][1])
-        exit2_rect = Exits(roomvars[str(currentRoom.name)]['exitlocs'][2])
-        exit3_rect = Exits(roomvars[str(currentRoom.name)]['exitlocs'][3])
-        
-        
+def setupsprites():
+    exit0 = Exits(roomvars[str(currentRoom.name)]['exitlocs'][0])
+    exit1 = Exits(roomvars[str(currentRoom.name)]['exitlocs'][1])
+    exit2 = Exits(roomvars[str(currentRoom.name)]['exitlocs'][2])
+    exit3 = Exits(roomvars[str(currentRoom.name)]['exitlocs'][3])
+    
+def colliding():
+    exit0.collide(psprite.rect.centerx, psprite.rect.centery)
+    exit1.collide(psprite.rect.centerx, psprite.rect.centery)
+    exit2.collide(psprite.rect.centerx, psprite.rect.centery)
+    exit3.collide(psprite.rect.centerx, psprite.rect.centery)
 
-    def colliding():
-        exit0_rect.collide(player.rect.centerx, player.rect.centery)
-        exit1_rect.collide(player.rect.centerx, player.rect.centery)
-        exit2_rect.collide(player.rect.centerx, player.rect.centery)
-        exit3_rect.collide(player.rect.centerx, player.rect.centery)
+def spriteadd():
+    if (e0 is True) and (directions[0] in all_sprites.sprites()) == False:
+        all_sprites.add(exit0)
+    elif (e1 is True) and (directions[1] in all_sprites.sprites()) == False:
+        all_sprites.add(exit1)
+    elif (e2 is True) and (directions[2] in all_sprites.sprites()) == False:
+        all_sprites.add(exit2)
+    elif (e3 is True) and (directions[3] in all_sprites.sprites()) == False:
+        all_sprites.add(exit3)
+    else:
+        pass
 
+def spriterm():
+    if (e0 is False) and (directions[0] in all_sprites.sprites()):
+        all_sprites.remove(exit0)
+    elif (e1 is False) and (directions[1] in all_sprites.sprites()):
+        all_sprites.remove(exit1)
+    elif (e2 is False) and (directions[2] in all_sprites.sprites()):
+        all_sprites.remove(exit2)
+    elif (e3 is False) and (directions[3] in all_sprites.sprites()):
+        all_sprites.remove(exit3)
+    else:
+        pass
 
 a1 = Area('testarea')
 global currentRoom
 currentRoom = a1.rooms[0]
-player = Player((5,5),a1.rooms[0])
+player = Player(a1.rooms[0])
+psprite = PlayerSprite(50, 50)
+all_sprites = pygame.sprite.Group()
+all_sprites.add(psprite)
 
 while True:
-    colliding()
-    player.exitdetection(player.room.exits)
-    if e0 == True:
-        pygame.draw.rect(screen, (200, 200, 200), exit0_rect)
-    if e1 == True:
-        pygame.draw.rect(screen, (200, 200, 200), exit1_rect)
-    if e2 == True:
-        pygame.draw.rect(screen, (200, 200, 200), exit2_rect)
-    if e3 == True:
-        pygame.draw.rect(screen, (200, 200, 200), exit3_rect)
-    pygame.draw.rect(screen, (255, 200, 0), player.rect)
+    screen.blit(pic1, (0,0))
+    psprite.update()
+    setupsprites()
+    spriteadd()
+    all_sprites.update()
+    spriterm()
+    all_sprites.update()
+    all_sprites.draw(screen)
     pygame.display.update()
     root.update()
 
