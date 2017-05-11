@@ -22,10 +22,6 @@ d = pygame.image.load('1.png')
 l = pygame.image.load('2.png')
 r = pygame.image.load('3.png')
 u = pygame.image.load('4.png')
-e0 = True
-e1 = True
-e2 = True
-e3 = True
 pygame.key.set_repeat(1, 20) 
 door = pygame.image.load('door.png')
 screen.blit(door, (250, 0))
@@ -138,24 +134,6 @@ class PlayerSprite(pygame.sprite.Sprite):
         player.room = player.room.locations[index]
         print "You have changed rooms"
         background = pygame.image.load(roomvars[str(player.room.name)]['backgrounds'][0])
-        if directions[0] in player.room.exits:
-            # can add more load features here
-            # this just blits exits around the room based on roomtype and the coords from the dictionary
-            #screen.blit(door, roomvars[str(player.room.name)]['exitlocs'][0])
-            e0 = True
-            print "0"
-        if directions[1] in player.room.exits:
-            #screen.blit(door, roomvars[str(player.room.name)]['exitlocs'][1])
-            e1 = True
-            print "1"
-        if directions[2] in player.room.exits:
-            #screen.blit(door, roomvars[str(player.room.name)]['exitlocs'][2])
-            e2 = True
-            print "2"
-        if directions[3] in player.room.exits:
-            #screen.blit(door, roomvars[str(player.room.name)]['exitlocs'][3])
-            e3 = True
-            print "3"
         if len(player.room.exits) == 0:
             ind = a1.rooms.index(player.room)
             lastroom = a1.rooms[ind - 1]
