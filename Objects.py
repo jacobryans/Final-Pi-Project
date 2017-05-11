@@ -12,10 +12,9 @@ inverse = {
         }
 
 class Area(object):
-
-    global info
     
     def __init__(self, name):
+        global info
         info = MapDefs()
         self.area = info.areas[name]
         self.name = name
@@ -68,38 +67,37 @@ class Area(object):
         # add all rooms to the list
         for i in range(self.max+1):
             a +=1
-            #room = Room(str(roomtypes[a]))
             room = roomtypes[a]
             room = Room(str(roomtypes[a]))
             self.addRoom(room)
             room.doItem(choice(self.items))
         # setup each room with exits, use index to track first room
-        #for i in range(self.max+1):
-            #if(i < limit):
-                #i = limit
-            #if(limit < self.max+1): # we can decrement the amount of rooms to get an accurate number
-                #room = self.rooms[i] # easily accessible room object 
-                #direction = directions[randint(0, 3)] # our current direction for the default new room
-                #while room.checkExit(direction): # makes sure we get a good direction
-                    #original = direction # this gets set to re-add it later
-                    #directions.remove(original)
-                    #direction = directions[randint(0, 3)]
-                    #directions.remove(direction)
-                #limit = i+1 # set new limit
-                #if(limit < self.max+1): # new default extra room
-                    #if (str(direction) in room.exits) == False:
-                        #room.addExit(direction, self.rooms[limit])
+        for i in range(self.max+1):
+            if(i < limit):
+                i = limit
+            if(limit < self.max+1): # we can decrement the amount of rooms to get an accurate number
+                room = self.rooms[i] # easily accessible room object 
+                direction = directions[randint(0, 3)] # our current direction for the default new room
+                while room.checkExit(direction): # makes sure we get a good direction
+                    original = direction # this gets set to re-add it later
+                    directions.remove(original)
+                    direction = directions[randint(0, 3)]
+                    directions.remove(direction)
+                limit = i+1 # set new limit
+                if(limit < self.max+1): # new default extra room
+                    if (str(direction) in room.exits) == False:
+                        room.addExit(direction, self.rooms[limit])
                     
-                #if(randint(0, 2) == 0): # random added room 
-                    #if(limit < self.max):
-                        #limit += 1 # increment by one
-                        #if (str(direction) in room.exits) == False:
-                            #room.addExit(directions[len(directions)-1], self.rooms[limit])
-                            #directions.append(direction)
-                #if(original != None):
-                    #directions.append(original)
-            #else:
-                #break
+                if(randint(0, 2) == 0): # random added room 
+                    if(limit < self.max):
+                        limit += 1 # increment by one
+                        if (str(direction) in room.exits) == False:
+                            room.addExit(directions[len(directions)-1], self.rooms[limit])
+                            directions.append(direction)
+                if(original != None):
+                    directions.append(original)
+            else:
+                break
             
 class Room(object):
     def __init__(self, name):
@@ -112,15 +110,12 @@ class Room(object):
     def __str__(self):
         s = "You are in a room"
         s += "\n"
-        if (len(self.exits) == 0):
-            a = randint(0, 3)
-            b = a1.rooms.index(self)
-            self.addExit(directions[a], a1.rooms[b + 1])
         s += str(self.exits)
         s += "\n"
         s += str(self.locations)
         
         s += "\n"
+        s += str(self.name)
         return s
 
     def items(self, value=None):
@@ -203,4 +198,8 @@ class Item(object):
         if(value == None):
             return self._key
         self._key = value
+
+def setuparea():
+    global a1
+    a1 = Area('testarea')
     
