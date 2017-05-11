@@ -14,14 +14,14 @@ inverse = {
 class Area(object):
     
     def __init__(self, name):
-        global info
         info = MapDefs()
         self.area = info.areas[name]
+        # set all of these to a default list value
         self.name = name
-        self.rooms, self.items = [], []
-        self.items = self.area['loot']
-        self.max = randint(self.area["rooms"][0], self.area["rooms"][1])
-        self.setupRooms()
+        self.rooms, self.enemies = [], []
+        self.max = randint(self.area["rooms"][0], self.area["rooms"][1]) # set the max amount of rooms, for us to index
+        self.items = self.area["loot"]
+        # add all the rooms, by spawning Room()s
 
     def __str__(self):
         s = "You are in the game. "
@@ -30,11 +30,6 @@ class Area(object):
         s += info.areas[self.name]['name']
         s += " area."
         return s
-
-    def items(self, value=None):
-        if(value == None):
-            return self._items
-        self._items = value
 
     def rooms(self, value=None):
         if(value == None):
@@ -60,44 +55,25 @@ class Area(object):
         self._area = value
         
     def setupRooms(self):
-        roomtypes = [ 'main', 'r1', 'r2', 'r3', 'keyroom', 'r4', 'r5', 'exit' ]
-        original, limit = None, 0
+        roomtypes = [ 'main', 'r1', 'r2', 'r3', 'keyroom', 'exit' ]
+        original, limit, elimit = None, -1, -1
         room = None
-        a = -1
         # add all rooms to the list
-        for i in range(self.max+1):
-            a +=1
-            room = roomtypes[a]
-            room = Room(str(roomtypes[a]))
+        for i in range(self.max):
+            room = Room(self.name + str(roomtypes[i]))
             self.addRoom(room)
             room.doItem(choice(self.items))
-        # setup each room with exits, use index to track first room
-        for i in range(self.max+1):
-            if(i < limit):
-                i = limit
-            if(limit < self.max+1): # we can decrement the amount of rooms to get an accurate number
-                room = self.rooms[i] # easily accessible room object 
-                direction = directions[randint(0, 3)] # our current direction for the default new room
-                while room.checkExit(direction): # makes sure we get a good direction
-                    original = direction # this gets set to re-add it later
-                    directions.remove(original)
-                    direction = directions[randint(0, 3)]
-                    directions.remove(direction)
-                limit = i+1 # set new limit
-                if(limit < self.max+1): # new default extra room
-                    if (str(direction) in room.exits) == False:
-                        room.addExit(direction, self.rooms[limit])
-                    
-                if(randint(0, 2) == 0): # random added room 
-                    if(limit < self.max):
-                        limit += 1 # increment by one
-                        if (str(direction) in room.exits) == False:
-                            room.addExit(directions[len(directions)-1], self.rooms[limit])
-                            directions.append(direction)
-                if(original != None):
-                    directions.append(original)
-            else:
-                break
+        for i in range(self.max):
+            limit += 1
+            n = self.rooms[limit]
+            if len(n.exits) < 3 and elimit == 1:
+                    elimit = -1
+            while len(roomvars[self.name + roomtypes[limit]]['exits']) != elimit+1:
+                elimit += 1
+                exit = roomvars[self.name + roomtypes[limit]]['exits'][elimit]
+                ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]
+                n.addExit(exit, ri)
+                
             
 class Room(object):
     def __init__(self, name):
@@ -108,16 +84,13 @@ class Room(object):
         self.usables = []
 
     def __str__(self):
-        s = "You are in a room"
+        s = str(self.name)
         s += "\n"
         s += str(self.exits)
         s += "\n"
         s += str(self.locations)
-        
-        s += "\n"
-        s += str(self.name)
         return s
-
+    
     def items(self, value=None):
         if (value == None):
             return self._items
@@ -145,12 +118,11 @@ class Room(object):
                 self.items.remove(item)
 
     # adds an exit to the room, the exit is a string (e.g., north), the room is an instance of a room
-    def addExit(self, exit, room): # append the exit and room to the appropriate lists
+    def addExit(self, exit, ri): # append the exit and room to the appropriate lists
         self.exits.append(exit)
-        self.locations.append(room)
+        self.locations.append(testarea.rooms[ri])
         # add room exits on the opposite side
-        self.exits.append(inverse[exit])
-        self.locations.append(self)
+        # self.exits.append(inverse[exit])
     
     # boolean, used to check if there is an exit in a direction
     def checkExit(self, direction):
@@ -199,7 +171,6 @@ class Item(object):
             return self._key
         self._key = value
 
-def setuparea():
-    global a1
-    a1 = Area('testarea')
-    
+global testarea
+testarea = Area('testarea')
+testarea.setupRooms()
