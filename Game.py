@@ -19,7 +19,7 @@ os.environ['SDL_WINDOWID'] = str(embed.winfo_id())
 os.environ['SDL_VIDEODRIVER'] = 'windib'
 screen = pygame.display.set_mode((500,500))
 screen.fill(pygame.Color(60,60,100))
-global d, l, r, u, door, loadscreen
+global d, l, r, u, door, doorp, loadscreen
 loadscreen = pygame.image.load('Loadscreen.png')
 d = pygame.image.load('1.png')
 l = pygame.image.load('2.png')
@@ -27,6 +27,7 @@ r = pygame.image.load('3.png')
 u = pygame.image.load('4.png')
 pygame.key.set_repeat(1, 10) 
 door = pygame.image.load('door.png')
+doorp = pygame.image.load('doorp.gif')
 loading = None
 #screen.blit(d, (250, 250))
 pygame.display.init()
@@ -109,85 +110,108 @@ class PlayerSprite(pygame.sprite.Sprite):
                 self.rect.top = 0
 
     def roomchange(self, index, px, py):
-        if index == 6:
-            if player.room.name == 'area1exit':
-                player.room = area2.rooms[0]
-                index = 0
-            elif player.room.name == 'area2exit':
-                player.room = area3.rooms[0]
-                index = 0
-            elif player.room.name == 'area3exit':
-                index = 0
-                #endgame()
+            loading = True
+            while loading == True:
+                player.room = player.room.locations[index]
+                screen.blit(loadscreen, (0, 0))
+                #exitcheck()
+                pygame.display.update()
+                pygame.time.delay(2000)
+                #bgupdate('background')
+                psprite.rect.centerx = px
+                psprite.rect.centery = py
+                player_sprites.draw(screen)
+                reset()
+                pygame.display.update() 
+                loading = False
+
+    def areachange(self, room):
         loading = True
         while loading == True:
-            player.room = player.room.locations[index]
-            screen.blit(loadscreen, (0, 0))
-            #exitcheck()
-            pygame.display.update()
-            pygame.time.delay(1500)
-            #bgupdate('background')
-            psprite.rect.centerx = px
-            psprite.rect.centery = py
-            player_sprites.draw(screen)
-            reset()
-            pygame.display.update()
-            loading = False
+            if player.room.name == 'area1exit':
+                player.room = area2.rooms[0]
+                screen.blit(loadscreen, (0, 0))
+                pygame.display.update()
+                pygame.time.delay(4000)
+                player_sprites.draw(screen)
+                reset()
+                pygame.display.update()
+                loading = False
+            elif player.room.name == 'area2exit':
+                player.room = area3.rooms[0]
+                screen.blit(loadscreen, (0, 0))
+                pygame.display.update()
+                pygame.time.delay(4000)
+                player_sprites.draw(screen)
+                reset()
+                pygame.display.update()
+                loading = False
+            elif player.room.name == 'area3exit':
+                screen.blit(loadscreen, (0, 0))
+                pygame.display.update()
+                pygame.time.delay(4000)
+                player_sprites.draw(screen)
+                reset()
+                pygame.display.update()
+                loading = False
 
 ##class Puzzle(pygame.sprite.Sprite);
-    
 
 class Exits(pygame.sprite.Sprite):
     
-    def __init__(self, (xcord, ycord), active = False):
+    def __init__(self, (xcord, ycord), ind6 = False):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((50,40))
-        self.image = door
+        self.ind6 = ind6
+        self.image = self.imagechanger(self.ind6)
         self.rect = self.image.get_rect()
         self.rect.centerx = xcord
         self.rect.centery = ycord
-        self.active = active
-        
-    def active(self, value=None):
+
+    def ind6(self, value=None):
         if value==None:
-            return self._active
-        self._active = value
+            return self._ind6
+        self._ind6 = value
+
+    def imagechanger(self, ind6):
+        if ind6 == True:
+            self.image = doorp
+        for i in roomvars[player.room.name]['exitindex']:
+            if i == 6:
+                ind6 = True
+                self.image = doorp
+            else:
+                self.image = door
+            return self.image
 
 
     def collide(self, rect):
         if self.rect.colliderect(rect):
-           # while self.active == True:
-            if exit3.rect.colliderect(rect)  and 'east' in roomvars[player.room.name]['exits']: # East Exit
+            if 6 in roomvars[player.room.name]['exitindex'] and exit1.rect.colliderect(rect):
+                psprite.areachange(player.room.name)
+            if exit3.rect.colliderect(rect) and 'east' in roomvars[player.room.name]['exits']: # East Exit
                 print "east"
                 psprite.roomchange(player.room.exits.index('east'), 50 ,220)
-                self.active = False
             elif exit2.rect.colliderect(rect) and 'west' in roomvars[player.room.name]['exits']: # West Exit
                 print "west"
                 psprite.roomchange(player.room.exits.index('west'), 440, 220)
-                self.active = False
             elif exit1.rect.colliderect(rect) and 'south' in roomvars[player.room.name]['exits']: # South Exit
                 print "south"
                 psprite.roomchange(player.room.exits.index('south'), 220, 50)
-                self.active = False
             elif exit0.rect.colliderect(rect) and 'north' in roomvars[player.room.name]['exits']: # North Exit
                 print "north"
                 psprite.roomchange(player.room.exits.index('north'), 220, 440)
-                self.active = False
             
 
     def exitsetup(self):
         if 'north' in roomvars[player.room.name]['exits']:
             exit_sprites.add(exit0)
-            self.active = True
         if 'south' in roomvars[player.room.name]['exits']:
             exit_sprites.add(exit1)
-            self.active = True
         if 'west' in roomvars[player.room.name]['exits']:
             exit_sprites.add(exit2)
-            self.active = True
         if 'east' in roomvars[player.room.name]['exits']:
             exit_sprites.add(exit3)
-            self.active = True
 
 
 def bgupdate(name):
@@ -200,11 +224,14 @@ def bgupdate(name):
 
 
 def start():
-    global exit0, exit1, exit2, exit3, background, exit_sprites, player_sprites
+    global exit0, exit1, exit2, exit3, background, exit_sprites, player_sprites, ind
     exit0 = Exits(roomvars[player.room.name]['exitlocs'][0])
     exit1 = Exits(roomvars[player.room.name]['exitlocs'][1])
     exit2 = Exits(roomvars[player.room.name]['exitlocs'][2])
     exit3 = Exits(roomvars[player.room.name]['exitlocs'][3])
+    exitlist = [ exit0, exit1, exit2, exit3 ]
+    for i in range(len(exitlist)):
+        exitlist[i].imagechanger(ind6 = True)
     player_sprites = pygame.sprite.Group()
     exit_sprites = pygame.sprite.Group()
     player.first = False
@@ -213,7 +240,7 @@ def start():
 global reset
 
 def reset():
-    background, exit_sprites, player.first = None, None, False
+    background, player_sprites, exit_sprites, player.first = None, None, None, False
     start()
 
 
