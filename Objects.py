@@ -125,7 +125,15 @@ class Room(object):
     # adds an exit to the room, the exit is a string (e.g., north), the room is an instance of a room
     def addExit(self, exit, ri, aname): # append the exit and room to the appropriate lists
         self.exits.append(exit)
-        self.locations.append(aname.rooms[ri-1])
+        if ri == 6:
+            if str(aname) == 'area1':
+                self.locations.append(area2.rooms[0])
+            elif str(aname) == 'area2':
+                self.locations.append(area3.rooms[0])
+            elif str(aname) == 'area3':
+                self.locations.append(area1.rooms[0])
+        if ri != 6:
+            self.locations.append(aname.rooms[ri])
         # add room exits on the opposite side
         #self.exits.append(inverse[exit])
         #self.locations.append(aname.rooms[ri-1])

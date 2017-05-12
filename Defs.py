@@ -63,15 +63,15 @@ class MapDefs:
             'soundtrack' : ['s1'],
             'background' : ['A1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'east', 'north', 'west' ],
-            'exitindex' : [ 1, 3, 5]
+            'exits' : [ 'north', 'west', 'east' ],
+            'exitindex' : [ 3, 5, 1]
         },
         'area1r1' : {
             'soundtrack' : ['s1'],
             'background' : [ 'A2.gif' ],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'west', 'north' ],
-            'exitindex' : [ 0, 2]
+            'exits' : [ 'north', 'west' ],
+            'exitindex' : [ 2, 0]
         },
         'area1r2' : {
             'soundtrack' : ['s1'],
@@ -91,15 +91,15 @@ class MapDefs:
             'soundtrack' : ['s1'],
             'background' : ['b1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'east', 'south'],
-            'exitindex' : [ 3, 5 ]
+            'exits' : [ 'south', 'east'],
+            'exitindex' : [ 5, 3 ]
         },
         'area1exit' : {
             'soundtrack' : ['s1'],
             'background' : ['Background.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'north', 'east', 'south' ],
-            'exitindex' : [ 4, 0, 6 ]
+            'exits' : [ 'north', 'south', 'east' ],
+            'exitindex' : [ 4, 6, 0 ]
         },
         'area2main' : {
             'soundtrack' : ['s1'],
