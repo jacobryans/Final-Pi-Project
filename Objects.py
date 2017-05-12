@@ -26,11 +26,7 @@ class Area(object):
         # add all the rooms, by spawning Room()s
 
     def __str__(self):
-        s = "You are in the game. "
-        s += "\n"
-        s += "You are in the "
-        s += info.areas[self.name]['name']
-        s += " area."
+        s = self.name
         return s
 
     def rooms(self, value=None):

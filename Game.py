@@ -27,7 +27,7 @@ r = pygame.image.load('3.png')
 u = pygame.image.load('4.png')
 pygame.key.set_repeat(1, 10)
 door = pygame.image.load('door.png')
-doorp = pygame.image.load('doorp.gif')
+doorp = pygame.image.load('doorp.png')
 gamecomplete = False
 loading = None
 interact = False
@@ -45,6 +45,11 @@ class Player(object):
             return self._first
         self._first = value
 
+    def area(self, value=None):
+        if (value == None):
+            return self._area
+        self._area = value
+    
     def room(self, value=None):
         if (value == None):
             return self._room
@@ -132,6 +137,7 @@ class PlayerSprite(pygame.sprite.Sprite):
         loading = True
         while loading == True:
             if player.room.name == 'area1exit':
+                player.area = area2
                 player.room = area2.rooms[0]
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
@@ -141,6 +147,7 @@ class PlayerSprite(pygame.sprite.Sprite):
                 pygame.display.update()
                 loading = False
             elif player.room.name == 'area2exit':
+                player.area = area3
                 player.room = area3.rooms[0]
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
@@ -149,7 +156,6 @@ class PlayerSprite(pygame.sprite.Sprite):
                 reset()
                 pygame.display.update()
                 loading = False
-
             elif player.room.name == 'area3exit':
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
@@ -165,12 +171,11 @@ class Items(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.image = pygame.Surface((50,40))
-        self.image = items[self.name]['pic']
+        self.image = pygame.image.load(items[self.name]['pic'])
         self.rect = self.image.get_rect()
-        self.rect.centerx = roomvars[player.room]['itempos'][0]
-        self.rect.centery = roomvars[player.room]['itempos'][1]
-        self.location = areas[player.area]['itemloc'][areas[player.area]['itemlist'].index[self.name]]
-        self.type = self.type
+        (self.rect.centerx, self.rect.centery) = roomvars[player.room.name]['itempos'][randint(0, 1)]
+        self.location = areas[player.area.name]['itemloc'][0]
+        self.type = items[self.name]['type']                        
         self.key = items[self.name]['key']
         self.desc = items[self.name]['desc']
 
@@ -314,6 +319,7 @@ def exitcheck():
     exit3.exitsetup()
 
 player = Player(area1.rooms[0], True)
+player.area = area1
 start()
 global psprite
 psprite = PlayerSprite(250, 250)

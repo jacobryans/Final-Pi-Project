@@ -4,25 +4,25 @@ class ItemDefs:
     items = {
         'terminal' : {
             'type' : 'usable',
-            'pic' : '1.gif',
+            'pic' : '1.png',
             'key' : False,
             'desc' : 'Informational Terminal'
             },
         'key1' : {
             'type' : 'read',
-            'pic' : '2.gif',
+            'pic' : '2.png',
             'key' : True,
             'desc' : 'Key Item for Area 1'
             },
         'key2' : {
             'type' : 'read',
-            'pic' : '3.gif',
+            'pic' : '3.png',
             'key' : True,
             'desc' : 'Key Item for Area 2'
             },
         'key3' : {
             'type' : 'read',
-            'pic' : '4.gif',
+            'pic' : '4.png',
             'key' : True,
             'desc' : 'Key Item for Area 3'
             }
