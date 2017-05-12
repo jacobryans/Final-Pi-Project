@@ -13,15 +13,16 @@ inverse = {
 
 class Area(object):
     
-    def __init__(self, name):
+    def __init__(self, name, complete=False):
         global info
         info = MapDefs()
         self.area = info.areas[name]
+        self.complete = complete
         # set all of these to a default list value
         self.name = name
         self.rooms, self.enemies = [], []
         self.max = randint(self.area["rooms"][0], self.area["rooms"][1]) # set the max amount of rooms, for us to index
-        self.items = self.area["loot"]
+        self.items = self.area['itemlist']
         # add all the rooms, by spawning Room()s
 
     def __str__(self):
@@ -56,6 +57,7 @@ class Area(object):
         self._area = value
         
     def setupRooms(self):
+        global roomtypes
         roomtypes = [ 'main', 'r1', 'r2', 'keyroom', 'r3', 'exit' ]
         original, limit, elimit = None, -1, -1
         room = None
@@ -74,10 +76,17 @@ class Area(object):
                 #if len(n.exits) == 3 and elimit == 2:
                     #ellimit -= 1
                 elimit += 1
-                exit = roomvars[self.name + roomtypes[limit]]['exits'][elimit]
-                ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]
-                aname = self
-                n.addExit(exit, ri, aname)
+                if roomtypes[limit] == 'exit' and self.name == 'area1' and elimit == 2:
+                    n.addExit(0, 'south', area1)
+                elif roomtypes[limit] == 'exit' and self.name == 'area2' and elimit == 1:
+                    n.addExit(0, 'south', area2)
+                elif roomtypes[limit] == 'exit' and self.name == 'area3' and elimit == 1:
+                    n.addExit(0, 'south', area3)
+                else:
+                    ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]
+                    exit = roomvars[self.name + roomtypes[limit]]['exits'][elimit]
+                    aname = self
+                    n.addExit(ri, exit, aname)
                 
             
 class Room(object):
@@ -123,17 +132,9 @@ class Room(object):
                 self.items.remove(item)
 
     # adds an exit to the room, the exit is a string (e.g., north), the room is an instance of a room
-    def addExit(self, exit, ri, aname): # append the exit and room to the appropriate lists
+    def addExit(self, ri, exit, aname): # append the exit and room to the appropriate lists
         self.exits.append(exit)
-        if ri == 6:
-            if str(aname) == 'area1':
-                self.locations.append(area2.rooms[0])
-            elif str(aname) == 'area2':
-                self.locations.append(area3.rooms[0])
-            elif str(aname) == 'area3':
-                self.locations.append(area1.rooms[0])
-        if ri != 6:
-            self.locations.append(aname.rooms[ri])
+        self.locations.append(aname.rooms[ri])
         # add room exits on the opposite side
         #self.exits.append(inverse[exit])
         #self.locations.append(aname.rooms[ri-1])

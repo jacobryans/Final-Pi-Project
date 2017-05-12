@@ -39,20 +39,20 @@ class MapDefs:
     areas = {
         'area1' : {
                 'rooms' : [ 6, 6 ],
-                'loot' : [ items['terminal'], items['key1'] ],
-                'itemloc' : [ 0, 3 ],
+                'itemlist' : [ items['terminal'], items['key1'] ],
+                'itemloc' : [ 1, 5 ],
                 'name' : "Area One"
         },
         'area2' : {
                 'rooms' : [ 6, 6 ],
-                'loot' : [ items['terminal'], items['key2'] ],
-                'itemloc' : [ 0, 3 ],
+                'itemlist' : [ items['terminal'], items['key2'] ],
+                'itemloc' : [3,5],
                 'name' : "Area Two"
         },
         'area3' : {
                 'rooms' : [ 6, 6 ],
-                'loot' : [ items['terminal'], items['key3'] ],
-                'itemloc' : [ 0, 3 ],
+                'itemlist' : [ items['terminal'], items['key3'] ],
+                'itemloc' : [ 3,  5],
                 'name' : "Area Three"
         }
     }
@@ -64,6 +64,7 @@ class MapDefs:
             'background' : ['A1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'north', 'west', 'east' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 3, 5, 1]
         },
         'area1r1' : {
@@ -71,6 +72,7 @@ class MapDefs:
             'background' : [ 'A2.gif' ],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'north', 'west' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 2, 0]
         },
         'area1r2' : {
@@ -78,6 +80,7 @@ class MapDefs:
             'background' : ['A3.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'south', 'west' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 1, 3]
         },
         'area1keyroom' : {
@@ -85,27 +88,31 @@ class MapDefs:
             'background' : ['A4.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'south', 'west', 'east' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 0, 4, 2]
         },
         'area1r3' : {
             'soundtrack' : ['s1'],
-            'background' : ['b1.gif'],
+            'background' : ['A5.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'south', 'east'],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 5, 3 ]
         },
         'area1exit' : {
             'soundtrack' : ['s1'],
-            'background' : ['Background.gif'],
+            'background' : ['A6.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'north', 'south', 'east' ],
-            'exitindex' : [ 4, 6, 0 ]
+            'exits' : [ 'north', 'east', 'south' ],
+            'itempos' : [ (300, 0), (250, 250) ],
+            'exitindex' : [ 4, 0, 6 ]
         },
         'area2main' : {
             'soundtrack' : ['s1'],
             'background' : ['B1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'east', 'north', 'west' ],
+            'exits' : [ 'north', 'west', 'east' ], 
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 1, 3, 5]
         },
         'area2r1' : {
@@ -113,6 +120,7 @@ class MapDefs:
             'background' : [ 'B2.gif' ],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'west', 'north' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 0, 2]
         },
         'area2r2' : {
@@ -120,6 +128,7 @@ class MapDefs:
             'background' : ['B3.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'south', 'west' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 1, 3]
         },
         'area2keyroom' : {
@@ -127,6 +136,7 @@ class MapDefs:
             'background' : ['B4.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'south', 'west', 'east' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 0, 4, 2]
         },
         'area2r3' : {
@@ -134,13 +144,15 @@ class MapDefs:
             'background' : ['B5.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'east', 'south'],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 3, 5 ]
         },
         'area2exit' : {
             'soundtrack' : ['s1'],
             'background' : ['B6.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'north', 'east' ],
+            'exits' : [ 'north', 'south' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 4, 6 ]
         },
         'area3main' : {
@@ -148,6 +160,7 @@ class MapDefs:
             'background' : ['C1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'east', 'north', 'west' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 1, 3, 5]
         },
         'area3r1' : {
@@ -155,6 +168,7 @@ class MapDefs:
             'background' : [ 'C2.gif' ],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'west', 'north' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 0, 2]
         },
         'area3r2' : {
@@ -162,6 +176,7 @@ class MapDefs:
             'background' : ['C3.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'south', 'west' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 1, 3]
         },
         'area3keyroom' : {
@@ -169,6 +184,7 @@ class MapDefs:
             'background' : ['C4.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'south', 'west', 'east' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 0, 4, 2]
         },
         'area3r3' : {
@@ -176,13 +192,15 @@ class MapDefs:
             'background' : ['C5.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'east', 'south'],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 3, 5 ]
         },
         'area3exit' : {
             'soundtrack' : ['s1'],
             'background' : ['C6.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'north', 'east' ],
+            'exits' : [ 'north', 'south' ],
+            'itempos' : [ (300, 0), (250, 250) ],
             'exitindex' : [ 4, 6 ]
         }
     }
