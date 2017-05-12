@@ -8,7 +8,8 @@ from Objects import *
 from Defs import MapDefs
 
 directions = [ 'north','south','west','east']
-
+pygame.mixer.init()
+sound = pygame.mixer.Sound('music1.mp3')
 root = tk.Tk()
 embed = tk.Frame(root, width = 500, height = 500) #creates embed frame for pygame window
 embed.grid(columnspan = (600), rowspan = 500) # Adds grid
