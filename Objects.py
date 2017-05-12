@@ -14,6 +14,7 @@ inverse = {
 class Area(object):
     
     def __init__(self, name):
+        global info
         info = MapDefs()
         self.area = info.areas[name]
         # set all of these to a default list value
@@ -75,7 +76,8 @@ class Area(object):
                 elimit += 1
                 exit = roomvars[self.name + roomtypes[limit]]['exits'][elimit]
                 ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]
-                n.addExit(exit, ri)
+                aname = self
+                n.addExit(exit, ri, aname)
                 
             
 class Room(object):
@@ -121,11 +123,12 @@ class Room(object):
                 self.items.remove(item)
 
     # adds an exit to the room, the exit is a string (e.g., north), the room is an instance of a room
-    def addExit(self, exit, ri): # append the exit and room to the appropriate lists
+    def addExit(self, exit, ri, aname): # append the exit and room to the appropriate lists
         self.exits.append(exit)
-        self.locations.append(testarea.rooms[ri])
+        self.locations.append(aname.rooms[ri-1])
         # add room exits on the opposite side
-        # self.exits.append(inverse[exit])
+        #self.exits.append(inverse[exit])
+        #self.locations.append(aname.rooms[ri-1])
     
     # boolean, used to check if there is an exit in a direction
     def checkExit(self, direction):
@@ -174,6 +177,8 @@ class Item(object):
             return self._key
         self._key = value
 
-global testarea
-testarea = Area('testarea')
-testarea.setupRooms()
+global area1, area2, area3
+area1, area2, area3 = Area('area1'), Area('area2'), Area('area3')
+area1.setupRooms()
+area2.setupRooms()
+area3.setupRooms()
