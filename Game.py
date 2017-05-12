@@ -33,7 +33,7 @@ pygame.display.init()
 pygame.display.update()
 
 class Player(object):
-    def __init__(self, room, first = True):
+    def __init__(self, room, first):
         self.room = room
         self.first = first
 
@@ -46,7 +46,6 @@ class Player(object):
         if (value == None):
             return self._room
         self._room = value
-
 
 class PlayerSprite(pygame.sprite.Sprite):
     
@@ -73,21 +72,21 @@ class PlayerSprite(pygame.sprite.Sprite):
         self.player.center[1]
 
     def update(self):
-        self.speedx = 1
-        self.speedy = 1
+        self.speedx = 5
+        self.speedy = 5
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
                 self.image = pygame.image.load('2.png')
-                self.rect.centerx -= 1
+                self.rect.centerx -= 5
         if keystate[pygame.K_RIGHT]:
                 self.image = pygame.image.load('3.png')
-                self.rect.centerx += 1
+                self.rect.centerx += 5
         if keystate[pygame.K_UP]:
                 self.image = pygame.image.load('4.png')
-                self.rect.centery -= 1
+                self.rect.centery -= 5
         if keystate[pygame.K_DOWN]:
                 self.image = pygame.image.load('1.png')
-                self.rect.centery += 1
+                self.rect.centery += 5
         if keystate[pygame.K_e]:
                 pass
         if keystate[pygame.K_a]:
@@ -110,6 +109,16 @@ class PlayerSprite(pygame.sprite.Sprite):
                 self.rect.top = 0
 
     def roomchange(self, index, px, py):
+        if index == 6:
+            if player.room.name == 'area1exit':
+                player.room = area2.rooms[0]
+                index = 0
+            elif player.room.name == 'area2exit':
+                player.room = area3.rooms[0]
+                index = 0
+            elif player.room.name == 'area3exit':
+                index = 0
+                #endgame()
         loading = True
         while loading == True:
             player.room = player.room.locations[index]
@@ -118,13 +127,15 @@ class PlayerSprite(pygame.sprite.Sprite):
             pygame.display.update()
             pygame.time.delay(1500)
             #bgupdate('background')
-            psprite = None
-            psprite = PlayerSprite(px, py)
-            player_sprites.add(psprite)
+            psprite.rect.centerx = px
+            psprite.rect.centery = py
+            player_sprites.draw(screen)
             reset()
             pygame.display.update()
             loading = False
-        
+
+##class Puzzle(pygame.sprite.Sprite);
+    
 
 class Exits(pygame.sprite.Sprite):
     
@@ -143,33 +154,25 @@ class Exits(pygame.sprite.Sprite):
         self._active = value
 
 
-    def collide(self, active):
-        if self.rect.colliderect(psprite.rect):
+    def collide(self, rect):
+        if self.rect.colliderect(rect):
            # while self.active == True:
-            if psprite.rect.colliderect(exit3) and 'east' in roomvars[player.room.name]['exits']: # East Exit
+            if exit3.rect.colliderect(rect)  and 'east' in roomvars[player.room.name]['exits']: # East Exit
                 print "east"
                 psprite.roomchange(player.room.exits.index('east'), 50 ,220)
                 self.active = False
-            elif 'east' in roomvars[player.room.name]['exits'] is False:
-                print "This is not a viable exit!"
-            elif psprite.rect.colliderect(exit2) and 'west' in roomvars[player.room.name]['exits']: # West Exit
+            elif exit2.rect.colliderect(rect) and 'west' in roomvars[player.room.name]['exits']: # West Exit
                 print "west"
                 psprite.roomchange(player.room.exits.index('west'), 440, 220)
                 self.active = False
-            elif 'west' in roomvars[player.room.name]['exits'] is False:
-                print "This is not a viable exit!"
-            elif psprite.rect.colliderect(exit1) and 'south' in roomvars[player.room.name]['exits']: # South Exit
+            elif exit1.rect.colliderect(rect) and 'south' in roomvars[player.room.name]['exits']: # South Exit
                 print "south"
                 psprite.roomchange(player.room.exits.index('south'), 220, 50)
                 self.active = False
-            elif 'south' in roomvars[player.room.name]['exits'] is False:
-                print "This is not a viable exit!"
-            elif psprite.rect.colliderect(exit0) and 'north' in roomvars[player.room.name]['exits']: # North Exit
+            elif exit0.rect.colliderect(rect) and 'north' in roomvars[player.room.name]['exits']: # North Exit
                 print "north"
                 psprite.roomchange(player.room.exits.index('north'), 220, 440)
                 self.active = False
-            elif 'north' in roomvars[player.room.name]['exits'] is False:
-                print "This is not a viable exit!"
             
 
     def exitsetup(self):
@@ -197,17 +200,14 @@ def bgupdate(name):
 
 
 def start():
-    global player, psprite, exit0, exit1, exit2, exit3, background, exit_sprites, player_sprites
-    exit0 = Exits(roomvars[str(player.room.name)]['exitlocs'][0])
-    exit1 = Exits(roomvars[str(player.room.name)]['exitlocs'][1])
-    exit2 = Exits(roomvars[str(player.room.name)]['exitlocs'][2])
-    exit3 = Exits(roomvars[str(player.room.name)]['exitlocs'][3])
+    global exit0, exit1, exit2, exit3, background, exit_sprites, player_sprites
+    exit0 = Exits(roomvars[player.room.name]['exitlocs'][0])
+    exit1 = Exits(roomvars[player.room.name]['exitlocs'][1])
+    exit2 = Exits(roomvars[player.room.name]['exitlocs'][2])
+    exit3 = Exits(roomvars[player.room.name]['exitlocs'][3])
     player_sprites = pygame.sprite.Group()
     exit_sprites = pygame.sprite.Group()
-    if player.first == True:
-        psprite = PlayerSprite(200, 200)
     player.first = False
-    player_sprites.add(psprite)
     background = bgupdate('background')
 
 global reset
@@ -218,10 +218,10 @@ def reset():
 
 
 def colliding():
-    exit0.collide(exit0.active)
-    exit1.collide(exit1.active)
-    exit2.collide(exit2.active)
-    exit3.collide(exit3.active)
+    exit0.collide(psprite.rect)
+    exit1.collide(psprite.rect)
+    exit2.collide(psprite.rect)
+    exit3.collide(psprite.rect)
 
 def exitcheck():
     exit0.exitsetup()
@@ -229,12 +229,14 @@ def exitcheck():
     exit2.exitsetup()
     exit3.exitsetup()
 
-player = Player(testarea.rooms[0])
+player = Player(area1.rooms[0], True)
+start()
+global psprite
+psprite = PlayerSprite(250, 250)
 clock = pygame.time.Clock()
 while True:
-    clock.tick(120)
-    if player.first == True:
-        start()
+    clock.tick(60)
+    player_sprites.add(psprite)
     screen.blit(background,(0,0))
     exitcheck()
     colliding()
