@@ -55,7 +55,7 @@ class Area(object):
         self._area = value
         
     def setupRooms(self):
-        roomtypes = [ 'main', 'r1', 'r2', 'r3', 'keyroom', 'exit' ]
+        roomtypes = [ 'main', 'r1', 'r2', 'keyroom', 'r3', 'exit' ]
         original, limit, elimit = None, -1, -1
         room = None
         # add all rooms to the list
@@ -66,9 +66,12 @@ class Area(object):
         for i in range(self.max):
             limit += 1
             n = self.rooms[limit]
-            if len(n.exits) < 3 and elimit == 1:
-                    elimit = -1
+            elimit = -1
             while len(roomvars[self.name + roomtypes[limit]]['exits']) != elimit+1:
+                #if len(n.exits) < 3 and elimit == 1:
+                    #elimit -=1
+                #if len(n.exits) == 3 and elimit == 2:
+                    #ellimit -= 1
                 elimit += 1
                 exit = roomvars[self.name + roomtypes[limit]]['exits'][elimit]
                 ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]

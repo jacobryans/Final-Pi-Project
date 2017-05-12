@@ -36,42 +36,42 @@ class MapDefs:
             'soundtrack' : ['s1'],
             'background' : ['b1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'north', 'south' ],
-            'exitindex' : [ 1, 5 ]
+            'exits' : [ 'east', 'north', 'west' ],
+            'exitindex' : [ 1, 3, 5]
         },
         'testarear1' : {
             'soundtrack' : ['s1'],
             'background' : [ 'b1.gif' ],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'south', 'east' ],
+            'exits' : [ 'west', 'north' ],
             'exitindex' : [ 0, 2]
         },
         'testarear2' : {
             'soundtrack' : ['s1'],
             'background' : ['b1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'west', 'north' ],
+            'exits' : [ 'south', 'west' ],
             'exitindex' : [ 1, 3]
         },
         'testareakeyroom' : {
             'soundtrack' : ['s1'],
             'background' : ['b1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'south', 'east' ],
-            'exitindex' : [ 2, 4]
+            'exits' : [ 'south', 'west', 'east' ],
+            'exitindex' : [ 0, 4, 2]
         },
         'testarear3' : {
             'soundtrack' : ['s1'],
             'background' : ['b1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'west', 'north' ],
-            'exitindex' : [ 3, 5]
+            'exits' : [ 'east', 'south'],
+            'exitindex' : [ 3, 5 ]
         },
         'testareaexit' : {
             'soundtrack' : ['s1'],
             'background' : ['b1.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'south', 'north' ],
+            'exits' : [ 'north', 'east' ],
             'exitindex' : [ 4, 0 ]
         }
     }
