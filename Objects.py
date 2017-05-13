@@ -22,7 +22,6 @@ class Area(object):
         self.name = name
         self.rooms, self.enemies = [], []
         self.max = randint(self.area["rooms"][0], self.area["rooms"][1]) # set the max amount of rooms, for us to index
-        self.items = self.area['itemlist']
         # add all the rooms, by spawning Room()s
 
     def __str__(self):
@@ -61,12 +60,17 @@ class Area(object):
         for i in range(self.max):
             room = Room(self.name + str(roomtypes[i]))
             self.addRoom(room)
-            room.doItem(choice(self.items))
         for i in range(self.max):
             limit += 1
             n = self.rooms[limit]
             elimit = -1
             while len(roomvars[self.name + roomtypes[limit]]['exits']) != elimit+1:
+                if len(roomvars[self.name + roomtypes[limit]]['exitindex']) == 1:
+                    ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]
+                    exit = roomvars[self.name + roomtypes[limit]]['exits'][elimit]
+                    aname = self
+                    n.addExit(ri, exit, aname)
+                    break
                 #if len(n.exits) < 3 and elimit == 1:
                     #elimit -=1
                 #if len(n.exits) == 3 and elimit == 2:
