@@ -261,17 +261,21 @@ class Items(pygame.sprite.Sprite):
             elif self.key == True:
                 if self.name == 'key1':
                     screen.fill((0,0,0))
-                    answer = inputbox.ask(screen, 'Answer: ')
+                    answer = inputbox.ask(screen, "Answer: ")
                     if answer == 'theanswertoallanswers':
                         reset()
                         area1.complete = True
                 elif self.name == 'key2':
-                    answer = inputbox.ask(screen, "Area 1 Puzzle Answer: ")
+                    screen.fill((0,0,0))
+                    answer = inputbox.ask(screen, "Answer: ")
                     if a2puzzle == '15':
+                        reset()
                         area2.complete = True
                 elif self.name == 'key3':
-                    answer = inputbox.ask(screen, "Area 1 Puzzle Answer: ")
+                    screen.fill((0,0,0))
+                    answer = inputbox.ask(screen, "Answer: ")
                     if a3puzzle == '20':
+                        reset()
                         area3.complete = True
             
     def itemsetup(self):
