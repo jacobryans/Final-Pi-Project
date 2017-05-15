@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import inputbox
+import ctypes
 from pygame import *
 import Tkinter as tk
 from Tkinter import *
@@ -10,49 +11,52 @@ from Defs import MapDefs
 
 directions = [ 'north','south','west','east']
 
-root = tk.Tk()
+# Setting up the interface
+root = tk.Tk() # Setting up tkinter
 embed = tk.Frame(root, width = 500, height = 500) #creates embed frame for pygame window
 embed.grid(columnspan = (500), rowspan = 500) # Adds grid
 embed.pack(side = LEFT) #packs window to the left
-buttonwin = tk.Frame(root, width = 0, height = 500)
+buttonwin = tk.Frame(root, width = 0, height = 500) # Button for tkinter
 buttonwin.pack(side = LEFT)
 os.environ['SDL_WINDOWID'] = str(embed.winfo_id())
 os.environ['SDL_VIDEODRIVER'] = 'windib'
-screen = pygame.display.set_mode((500,500))
-screen.fill(pygame.Color(60,60,100))
-global d, l, r, u, door, doorp, loadscreen
+screen = pygame.display.set_mode((500,500)) # Pygame setdisplay
+screen.fill(pygame.Color(60,60,100)) #Fills with a color
+global d, l, r, u, door, doorp, loadscreen #setting global picture vars
 loadscreen = pygame.image.load('Loadscreen.png')
-d = ['pic/down1.png','pic/down2.png','pic/down3.png', 'pic/down4.png']
+d = ['pic/down1.png','pic/down2.png','pic/down3.png', 'pic/down4.png'] # buffer for each direction for animated walking (working on this)
 l = ['pic/left1.png','pic/left2.png','pic/left3.png', 'pic/left4.png']
 r = ['pic/right1.png','pic/right2.png','pic/right3.png', 'pic/right4.png']
 u = ['pic/up1.png','pic/up2.png','pic/up3.png', 'pic/up4.png']
 door = pygame.image.load('pic/door.png')
 doorp = pygame.image.load('pic/doorp.png')
-gamecomplete = False
+gamecomplete = None # setting variables
 loading = None
-interact = False
-#screen.blit(d, (250, 250))
-pygame.display.set_caption('Hack.Out v1')
 pygame.display.init()
 pygame.display.update()
 
-class Player(object):
-    def __init__(self, room):
-        self.room = room
 
-    def area(self, value=None):
-        if (value == None):
-            return self._area
-        self._area = value
+# Player class, handles the player's room and can add other functionalitys
+class Player(object):
+    def __init__(self, room, first):
+        self.room = room
+        self.first = first
     
     def room(self, value=None):
         if (value == None):
             return self._room
         self._room = value
 
+    def first(self, value=None):
+        if (value == None):
+            return self._first
+        self._first = value
+
+# Playersprite class, handles the visual player qualities
 class PlayerSprite(pygame.sprite.Sprite):
     
     def __init__(self, px ,py):
+        # Initializing the sprite and its rect
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((px, py))
         self.image = pygame.image.load('pic/up1.png')
@@ -60,6 +64,7 @@ class PlayerSprite(pygame.sprite.Sprite):
         self.rect.centerx = px
         self.rect.centery = py
 
+    # Setters and getters
     def px(self, value=None):
         if (value == None):
             return self._px
@@ -74,69 +79,48 @@ class PlayerSprite(pygame.sprite.Sprite):
         self.player.center[0]
         self.player.center[1]
 
+
+    # This moves the player when called, sets FPS at 60 and changes the player rect and its images, also used for debugging and checking of player coords
+    # So the player doesn't walk out of bounds
     def update(self):
-        self.speedx = 3
-        self.speedy = 3
+        clock.tick(60)
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
-                clock.tick(60)
                 self.image = pygame.image.load(l[0])
                 self.rect.centerx -= 3
-                player_sprites.add(self)
-                player_sprites.draw(screen)
                 self.image = pygame.image.load(l[1])
                 self.rect.centerx -= 3
-                player_sprites.add(self)
-                player_sprites.draw(screen)
                 self.image = pygame.image.load(l[2])
                 self.rect.centerx -= 3
-                player_sprites.add(self)
-                player_sprites.draw(screen)
                 self.image = pygame.image.load(l[3])
-                self.rect.centerx -=  2
-                player_sprites.draw(screen)
+                self.rect.centerx -= 3
         if keystate[pygame.K_RIGHT]:
-                clock.tick(60)
                 self.image = pygame.image.load(r[0])
                 self.rect.centerx += 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(r[1])
                 self.rect.centerx += 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(r[2])
                 self.rect.centerx += 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(r[3])
                 self.rect.centerx += 3
-                pygame.time.delay(5)
         if keystate[pygame.K_UP]:
-                clock.tick(60)
                 self.image = pygame.image.load(u[0])
                 self.rect.centery -= 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(u[1])
                 self.rect.centery -= 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(u[2])
                 self.rect.centery -= 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(u[3])
                 self.rect.centery -= 3
-                pygame.time.delay(5)
         if keystate[pygame.K_DOWN]:
-                clock.tick(60)
                 self.image = pygame.image.load(d[0])
                 self.rect.centery += 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(d[1])
                 self.rect.centery += 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(d[2])
                 self.rect.centery += 3
-                pygame.time.delay(5)
                 self.image = pygame.image.load(d[3])
                 self.rect.centery += 3
-                pygame.time.delay(5)
         if keystate[pygame.K_e]:
                 global interact
                 interact = True
@@ -159,40 +143,57 @@ class PlayerSprite(pygame.sprite.Sprite):
         if self.rect.top < 0:
                 self.rect.top = 0
 
-    def roomchange(self, index, px, py):
+    # Changes the player room
+    def roomchange(self, index):
+            # Sets loading to true so we have an accurate load everytime
             loading = True
             while loading == True:
+                # Changes the player's room
                 player.room = player.room.locations[index]
+                # Brings up the loadscreen
                 screen.blit(loadscreen, (0, 0))
+                # Updates the display
                 pygame.display.update()
+                # Delays time for visual pleasing
                 pygame.time.delay(2000)
-                self.rect.centerx = px
-                self.rect.centery = py
+                # Sets player rect location
                 pygame.display.update()
                 pygame.time.delay(3000)
+                # Resets the player and all other sprites etc.
                 reset()
-                pygame.display.update() 
+                pygame.display.update()
+                # Sets loading to false to break out of loop
                 loading = False
 
+    # Changes the player's area after completing the puzzle and walking thru the portal
     def areachange(self, room):
+        # Loading = true for same reason as roomchange
         loading = True
         while loading == True:
+            # Checks the player's area and completion of the area
             if player.room.name == 'area1exit' and area1.complete == True:
+                # Sets area and room based on current location
                 player.area = area2
                 player.room = area2.rooms[0]
+                # Brings up loadscreen
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
-                pygame.time.delay(4000)
+                # Delays for a second to mimic loading
+                pygame.time.delay(3000)
+                # Draws the player to the screen
                 player_sprites.draw(screen)
+                # Resets
                 reset()
+                # Updates the display
                 pygame.display.update()
+                # Breaks out of loop
                 loading = False
             elif player.room.name == 'area2exit' and area2.complete == True:
                 player.area = area3
                 player.room = area3.rooms[0]
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
-                pygame.time.delay(4000)
+                pygame.time.delay(3000)
                 player_sprites.draw(screen)
                 reset()
                 pygame.display.update()
@@ -200,7 +201,7 @@ class PlayerSprite(pygame.sprite.Sprite):
             elif player.room.name == 'area3exit' and area3.complete == True:
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
-                pygame.time.delay(4000)
+                pygame.time.delay(3000)
                 player_sprites.draw(screen)
                 reset()
                 pygame.display.update()
@@ -209,6 +210,7 @@ class PlayerSprite(pygame.sprite.Sprite):
                 reset()
                 loading = False
 
+# Used for random sprites not categorized to an exit, player, or item (Mainly UI thing)
 class AnySprite(pygame.sprite.Sprite):
     def __init__(self, imagename):
         pygame.sprite.Sprite.__init__(self)
@@ -220,7 +222,8 @@ class Items(pygame.sprite.Sprite):
     def __init__(self, name, px, py):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
-        self.image = pygame.Surface((500, 500))
+        # Sets up the item sprite, including the type, key, and desc
+        self.image = pygame.Surface((50, 40))
         self.image = pygame.image.load(items[self.name]['pic'][0])
         self.rect = self.image.get_rect()
         self.rect.centerx = px
@@ -230,11 +233,15 @@ class Items(pygame.sprite.Sprite):
         self.desc = items[self.name]['desc']
 
     def collide(self, rect):
+        # Checks for collision, and decides a route of code based on the collision
         if self.rect.colliderect(psprite.rect):
+            # If the collided item is the terminal
             if self == terminal:
+                # We use termcollide so we can break out of the recursion with L_SHIFT
                 termcollide = True
                 while termcollide == True:
                     if player.room.name == 'area1r1':
+                        # Checks the area above and then intializes a sprite, spritegroup, and adds the sprite to the group and draws it
                         puzzleterminal = AnySprite('pic/puzzleterminal1.png')
                         any_sprites = pygame.sprite.Group()
                         any_sprites.add(puzzleterminal)
@@ -252,31 +259,46 @@ class Items(pygame.sprite.Sprite):
                         any_sprites.add(puzzleterminal)
                         any_sprites.draw(screen)
                         pygame.display.update()
+                    # This is used to handle player input to get out of the screen
                     for event in pygame.event.get():
                         if event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_LSHIFT:
                                 reset()
                                 termcollide = False
                                 break
+            # Checks to see if self.key == True and checks the name of the item, then uses inputbox to record player input
             elif self.key == True:
                 if self.name == 'key1':
+                    # Fills the screen to overlay the other sprites
                     screen.fill((0,0,0))
                     answer = inputbox.ask(screen, "Answer: ")
+                    reset()
                     if answer == 'theanswertoallanswers':
-                        reset()
+                        ctypes.windll.user32.MessageBoxA(0, "Admin Status Approved. Continue to next area.", "HACKED.OUT", 1)
                         area1.complete = True
+                    else:
+                        ctypes.windll.user32.MessageBoxA(0, "Admin Status Negated. Find the terminal for a hint.", "HACK.FAIL", 1)
+                        area1.complete = False
                 elif self.name == 'key2':
                     screen.fill((0,0,0))
                     answer = inputbox.ask(screen, "Answer: ")
+                    reset()
                     if a2puzzle == '15':
-                        reset()
+                        ctypes.windll.user32.MessageBoxA(0, "Admin Status Approved. Continue to next area.", "HACKED.OUT", 1)
                         area2.complete = True
+                    else:
+                        ctypes.windll.user32.MessageBoxA(0, "Admin Status Negated. Find the terminal for a hint.", "HACK.FAIL", 1)
+                        area2.complete = False
                 elif self.name == 'key3':
                     screen.fill((0,0,0))
                     answer = inputbox.ask(screen, "Answer: ")
+                    reset()
                     if a3puzzle == '20':
-                        reset()
+                        ctypes.windll.user32.MessageBoxA(0, "Admin Status Approved. Continue to next area.", "HACKED.OUT", 1)
                         area3.complete = True
+                    else:
+                        ctypes.windll.user32.MessageBoxA(0, "Admin Status Negated. Find the terminal for a hint.", "HACK.FAIL", 1)
+                        area3.complete = False
             
     def itemsetup(self):
         # checks to see if item locations are in the same area as player and adds them to sprites:
@@ -289,7 +311,7 @@ class Items(pygame.sprite.Sprite):
         elif items['key3'] in roomvars[player.room.name]['itemlist']:
             item_sprites.add(key3)
                 
-
+# Class for handling exits and their sprites
 class Exits(pygame.sprite.Sprite):
     
     def __init__(self, (xcord, ycord), image = door):
@@ -301,6 +323,7 @@ class Exits(pygame.sprite.Sprite):
         self.rect.centery = ycord
 
     def imagechanger(self):
+        # simple function for changing the portal color if it leads to another area
         if 'exit' in player.room.name:
             if self == exit1:
                 self.image = doorp
@@ -310,22 +333,24 @@ class Exits(pygame.sprite.Sprite):
 
 
     def collide(self, rect):
+        # Checks collision with exit
         if self.rect.colliderect(rect):
-            collideloc = [ psprite.rect.centery, psprite.rect.centerx ]
+            # Records collide location of player and sets appropriate next room spawn
+            x_mod, y_mod = 0, 0
             if 6 in roomvars[player.room.name]['exitindex'] and exit1.rect.colliderect(rect):
                 psprite.areachange(player.room.name)
             if exit3.rect.colliderect(rect) and 'east' in roomvars[player.room.name]['exits']: # East Exit
                 print "east"
-                psprite.roomchange(player.room.exits.index('east'), 500 - collideloc[0], collideloc[1] )
+                psprite.roomchange(player.room.exits.index('east'))
             elif exit2.rect.colliderect(rect) and 'west' in roomvars[player.room.name]['exits']: # West Exit
                 print "west"
-                psprite.roomchange(player.room.exits.index('west'), collideloc[0] + 360, collideloc[1])
+                psprite.roomchange(player.room.exits.index('west'))
             elif exit1.rect.colliderect(rect) and 'south' in roomvars[player.room.name]['exits']: # South Exit
                 print "south"
-                psprite.roomchange(player.room.exits.index('south'), collideloc[0], 500 - collideloc[1])
+                psprite.roomchange(player.room.exits.index('south'))
             elif exit0.rect.colliderect(rect) and 'north' in roomvars[player.room.name]['exits']: # North Exit
                 print "north"
-                psprite.roomchange(player.room.exits.index('north'), collideloc[0], collideloc[1] + 360)
+                psprite.roomchange(player.room.exits.index('north'))
             
 
     def exitsetup(self):
@@ -426,12 +451,15 @@ def Spritesetter():
 ##        pygame.display.update()
 ##        clock.tick(15)
 
+# Initialize clock (for fps)
 clock = pygame.time.Clock()
 #startscreen()
-player = Player(area1.rooms[0])
+# Sets up player instance
+player = Player(area1.rooms[0], True)
+# Sets up all sprites
 Spritesetter()
 
-while gamecomplete == False:
+while gamecomplete != True:
     clock.tick(60)
     player_sprites.add(psprite)
     screen.blit(background,(0,0))
