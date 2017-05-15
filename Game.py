@@ -210,14 +210,13 @@ class PlayerSprite(pygame.sprite.Sprite):
                 loading = False
 
 class AnySprite(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, imagename):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((500,500))
-        self.image = pygame.image.load('pic/puzzleterminal.png')
+        self.image = pygame.image.load(imagename)
         self.rect = self.image.get_rect()
 
 class Items(pygame.sprite.Sprite):
-    
     def __init__(self, name, px, py):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
@@ -235,11 +234,24 @@ class Items(pygame.sprite.Sprite):
             if self == terminal:
                 termcollide = True
                 while termcollide == True:
-                    puzzleterminal = AnySprite()
-                    any_sprites = pygame.sprite.Group()
-                    any_sprites.add(puzzleterminal)
-                    any_sprites.draw(screen)
-                    pygame.display.update()
+                    if player.room.name == 'area1r1':
+                        puzzleterminal = AnySprite('pic/puzzleterminal1.png')
+                        any_sprites = pygame.sprite.Group()
+                        any_sprites.add(puzzleterminal)
+                        any_sprites.draw(screen)
+                        pygame.display.update()
+                    elif player.room.name == 'area2r3':
+                        puzzleterminal = AnySprite('pic/puzzleterminal2.png')
+                        any_sprites = pygame.sprite.Group()
+                        any_sprites.add(puzzleterminal)
+                        any_sprites.draw(screen)
+                        pygame.display.update()
+                    elif player.room.name == 'area3r2':
+                        puzzleterminal = AnySprite('pic/puzzleterminal3.png')
+                        any_sprites = pygame.sprite.Group()
+                        any_sprites.add(puzzleterminal)
+                        any_sprites.draw(screen)
+                        pygame.display.update()
                     for event in pygame.event.get():
                         if event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_LSHIFT:
