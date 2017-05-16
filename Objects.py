@@ -58,30 +58,37 @@ class Area(object):
         room = None
         # add all rooms to the list
         for i in range(self.max):
+            # Creates a room object with the roomtype string
             room = Room(self.name + str(roomtypes[i]))
+            # Adds the room to the area
             self.addRoom(room)
         for i in range(self.max):
+            # Sets limit and elimit to 0, n is set to a room for easy room access
             limit += 1
             n = self.rooms[limit]
             elimit = -1
             while len(roomvars[self.name + roomtypes[limit]]['exits']) != elimit+1:
+                # If there is only 1 exit, don't bother with going through the whole loop
                 if len(roomvars[self.name + roomtypes[limit]]['exitindex']) == 1:
                     ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]
                     exit = roomvars[self.name + roomtypes[limit]]['exits'][elimit]
                     aname = self
                     n.addExit(ri, exit, aname)
                     break
-                #if len(n.exits) < 3 and elimit == 1:
-                    #elimit -=1
-                #if len(n.exits) == 3 and elimit == 2:
-                    #ellimit -= 1
                 elimit += 1
-                if roomtypes[limit] == 'exit' and self.name == 'area1' and elimit == 2:
+                # There are wierd exceptions with the end room going to the next area, so an innefficient solution is used :(
+                if roomtypes[limit] == 'exit' and self.name == 'area1':
                     n.addExit(0, 'south', area1)
-                elif roomtypes[limit] == 'exit' and self.name == 'area2' and elimit == 1:
+                    n.addExit(1, 'east', area1)
+                    n.addExit(4, 'north', area1)
+                    break
+                elif roomtypes[limit] == 'exit' and self.name == 'area2':
                     n.addExit(0, 'south', area2)
-                elif roomtypes[limit] == 'exit' and self.name == 'area3' and elimit == 1:
-                    n.addExit(0, 'south', area3)
+                    n.addExit(1, 'east', area2)
+                    break
+                elif roomtypes[limit] == 'exit' and self.name == 'area3':
+                    n.addExit(4, 'north', area3)
+                    # If the room isn't an exit room, appends an exit based on the roomindex, exit, and the area name
                 else:
                     ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]
                     exit = roomvars[self.name + roomtypes[limit]]['exits'][elimit]
@@ -90,13 +97,15 @@ class Area(object):
                 
             
 class Room(object):
+    # Simple room object class
     def __init__(self, name):
         self.name = name
+        # Exits are exits
         self.exits = []
+        # Locations are the rooms connected to the exit in index
         self.locations = []
-        self.items = []
-        self.usables = []
 
+    # String representer, used for debugging mainly
     def __str__(self):
         s = str(self.name)
         s += "\n"
@@ -104,17 +113,8 @@ class Room(object):
         s += "\n"
         s += str(self.locations)
         return s
-    
-    def items(self, value=None):
-        if (value == None):
-            return self._items
-        self._items = value
-        
-    def usables(self, value=None):
-        if (value == None):
-            return self._usables
-        self._usables = value
-    
+
+    # Setters and getters
     def locations(self, value=None):
         if (value == None):
             return self._locations
@@ -125,6 +125,7 @@ class Room(object):
             return self._exits
         self._exits = value
 
+    # Item function that adds items to room, not implemented
     def doItem(self, item, remove=False):
         if(remove == False):
                 self.items.append(item)
@@ -132,13 +133,12 @@ class Room(object):
                 self.items.remove(item)
 
     # adds an exit to the room, the exit is a string (e.g., north), the room is an instance of a room
-    def addExit(self, ri, exit, aname): # append the exit and room to the appropriate lists
-        self.exits.append(exit)
-        self.locations.append(aname.rooms[ri])
-        # add room exits on the opposite side
-        #self.exits.append(inverse[exit])
-        #self.locations.append(aname.rooms[ri-1])
-    
+    def addExit(self, ri, exit, aname):
+        if ri!= 6:
+            self.exits.append(exit)
+            self.locations.append(aname.rooms[ri])
+
+    # Function created for a more dynamic exit system, to be later implemented    
     # boolean, used to check if there is an exit in a direction
     def checkExit(self, direction):
         # check for valid exits in the current room
@@ -149,6 +149,7 @@ class Room(object):
         return False
     
 class Item(object):
+    # Item object class, not fully implemented but will be used with tkinter in future development
     def __init__(self, name):
         self.name = name
         item = ItemDefs()
@@ -156,6 +157,7 @@ class Item(object):
         self.type = item.items[str(name)]['type']
         self.key = item.items[str(name)]['key']
 
+    # String representation of item, used for debugging
     def __str__(self):
         s = "Item string test"
         s += "\n"
@@ -186,6 +188,8 @@ class Item(object):
             return self._key
         self._key = value
 
+
+# Initializes the areas and sets them up with rooms and such
 global area1, area2, area3
 area1, area2, area3 = Area('area1'), Area('area2'), Area('area3')
 area1.setupRooms()

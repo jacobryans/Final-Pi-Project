@@ -1,3 +1,6 @@
+# THIS IS NOT THE WORK OF OUR GROUP, IS A COMMUNITY SCRIPT USED BY MANY
+# FOR USER INPUT BOXES
+
 # by Timothy Downs, inputbox written for my map editor
 
 # This program needs a little cleaning up

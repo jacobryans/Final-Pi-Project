@@ -4,25 +4,25 @@ class ItemDefs:
     items = {
         'terminal' : {
             'type' : 'usable',
-            'pic' : [ 'terminal.png' ],
+            'pic' : [ 'pic/terminal.png' ],
             'key' : False,
             'desc' : 'Informational Terminal'
             },
         'key1' : {
             'type' : 'read',
-            'pic' : [ 'key1.png' ],
+            'pic' : [ 'pic/key1.png' ],
             'key' : True,
             'desc' : 'Key Item for Area 1'
             },
         'key2' : {
             'type' : 'read',
-            'pic' : [ 'key2.png' ],
+            'pic' : [ 'pic/key2.png' ],
             'key' : True,
             'desc' : 'Key Item for Area 2'
             },
         'key3' : {
             'type' : 'read',
-            'pic' : [ 'key3.png' ],
+            'pic' : [ 'pic/key3.png' ],
             'key' : True,
             'desc' : 'Key Item for Area 3'
             }
@@ -58,7 +58,7 @@ class MapDefs:
         # for exitlocs, its [(north), (south), (east), (west)]
         'area1main' : {
             'soundtrack' : ['s1'],
-            'background' : ['A1.gif'],
+            'background' : ['pic/A1.gif'],
             'exitlocs' : [(250, 120), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'north' ],
             'itemlist' : [ ],
@@ -67,7 +67,7 @@ class MapDefs:
         },
         'area1r1' : {
             'soundtrack' : ['s1'],
-            'background' : [ 'A2.gif' ],
+            'background' : [ 'pic/A2.gif' ],
             'exitlocs' : [(250, 0), (250, 470), (20, 250), (470, 250)],
             'exits' : [ 'north' ,'east', 'south', 'west' ],
             'itemlist' : [ items['terminal'] ],
@@ -76,7 +76,7 @@ class MapDefs:
         },
         'area1r2' : {
             'soundtrack' : ['s1'],
-            'background' : ['A3.gif'],
+            'background' : ['pic/A3.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
             'exits' : [ 'west' ],
             'itemlist' : [ ],
@@ -85,7 +85,7 @@ class MapDefs:
         },
         'area1keyroom' : {
             'soundtrack' : ['s1'],
-            'background' : ['A4.gif'],
+            'background' : ['pic/A4.gif'],
             'exitlocs' : [(250, 0), (250, 470), (20, 250), (500, 250)],
             'exits' : [ 'west', 'south'],
             'itemlist' : [ items['key1'] ],
@@ -94,7 +94,7 @@ class MapDefs:
         },
         'area1r3' : {
             'soundtrack' : ['s1'],
-            'background' : ['A5.gif'],
+            'background' : ['pic/A5.gif'],
             'exitlocs' : [(250, 0), (250, 450), (0, 250), (450, 250)],
             'exits' : [ 'south', 'east'],
             'itemlist' : [ ],
@@ -103,120 +103,120 @@ class MapDefs:
         },
         'area1exit' : {
             'soundtrack' : ['s1'],
-            'background' : ['A6.gif'],
+            'background' : ['pic/A6.gif'],
             'exitlocs' : [(250, 30), (250, 450), (0, 250), (470, 300)],
-            'exits' : [ 'north', 'east', 'south' ],
+            'exits' : [ 'south', 'east', 'north' ],
             'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
-            'exitindex' : [ 4, 1, 6 ]
+            'exitindex' : [ 6, 1, 4 ]
         },
         'area2main' : {
             'soundtrack' : ['s1'],
-            'background' : ['B1.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'north', 'west', 'east' ],
+            'background' : ['pic/B1.gif'],
+            'exitlocs' : [(250, 0), (250, 500), (40, 250), (460, 250)],
+            'exits' : [ 'east', 'west' ],
             'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
-            'exitindex' : [ 1, 3, 5]
+            'exitindex' : [ 1, 5 ]
         },
         'area2r1' : {
             'soundtrack' : ['s1'],
-            'background' : [ 'B2.gif' ],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'west', 'north' ],
+            'background' : [ 'pic/B2.gif' ],
+            'exitlocs' : [(250, 0), (250, 470), (40, 250), (460, 250)],
+            'exits' : [ 'west', 'east' ],
             'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
-            'exitindex' : [ 0, 2]
+            'exitindex' : [ 0, 2 ]
         },
         'area2r2' : {
             'soundtrack' : ['s1'],
-            'background' : ['B3.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'south', 'west' ],
+            'background' : ['pic/B3.gif'],
+            'exitlocs' : [(250, 0), (250, 500), (40, 250), (460, 250)],
+            'exits' : [ 'west', 'east' ],
             'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
             'exitindex' : [ 1, 3]
         },
         'area2keyroom' : {
             'soundtrack' : ['s1'],
-            'background' : ['B4.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'south', 'west', 'east' ],
-            'itemlist' : [ items['key2'] ],
+            'background' : ['pic/B4.gif'],
+            'exitlocs' : [(250, 40), (250, 500), (0, 250), (460, 250)],
+            'exits' : [ 'north', 'west' ],
+            'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
-            'exitindex' : [ 0, 4, 2]
+            'exitindex' : [ 4, 2]
         },
         'area2r3' : {
             'soundtrack' : ['s1'],
-            'background' : ['B5.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'east', 'south'],
-            'itemlist' : [ items['terminal'] ],
-            'itempos' : [ 300, 0 ],
-            'exitindex' : [ 3, 5 ]
+            'background' : ['pic/B5.gif'],
+            'exitlocs' : [(250, 0), (250, 470), (0, 250), (500, 250)],
+            'exits' : [ 'south' ],
+            'itemlist' : [ items['key2'] ],
+            'itempos' : [ 250, 100 ],
+            'exitindex' : [ 3 ]
         },
         'area2exit' : {
             'soundtrack' : ['s1'],
-            'background' : ['B6.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'north', 'south' ],
-            'itemlist' : [ ],
-            'itempos' : [ 300, 0 ],
-            'exitindex' : [ 4, 6 ]
+            'background' : ['pic/B6.gif'],
+            'exitlocs' : [(250, 0), (250, 470), (0, 250), (460, 250)],
+            'exits' : [ 'south', 'east' ],
+            'itemlist' : [ items['terminal'] ],
+            'itempos' : [ 100, 300 ],
+            'exitindex' : [ 6, 1 ]
         },
         'area3main' : {
             'soundtrack' : ['s1'],
-            'background' : ['C1.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'east', 'north', 'west' ],
+            'background' : ['pic/C1.gif'],
+            'exitlocs' : [(250, 0), (250, 500), (30, 250), (500, 250)],
+            'exits' : [ 'west' ],
             'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
-            'exitindex' : [ 1, 3, 5]
+            'exitindex' : [ 1 ]
         },
         'area3r1' : {
             'soundtrack' : ['s1'],
-            'background' : [ 'C2.gif' ],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'west', 'north' ],
+            'background' : [ 'pic/C2.gif' ],
+            'exitlocs' : [(250, 30), (250, 470), (0, 250), (470, 250)],
+            'exits' : [ 'east', 'north', 'south' ],
             'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
-            'exitindex' : [ 0, 2]
+            'exitindex' : [ 0, 2, 4 ]
         },
         'area3r2' : {
             'soundtrack' : ['s1'],
-            'background' : ['C3.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'south', 'west' ],
+            'background' : ['pic/C3.gif'],
+            'exitlocs' : [(250, 30), (250, 470), (30, 250), (500, 250)],
+            'exits' : [ 'south', 'north' ],
             'itemlist' : [ items['terminal'] ],
-            'itempos' : [ 300, 0 ],
+            'itempos' : [ 400, 200 ],
             'exitindex' : [ 1, 3]
         },
         'area3keyroom' : {
             'soundtrack' : ['s1'],
-            'background' : ['C4.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'south', 'west', 'east' ],
+            'background' : ['pic/C4.gif'],
+            'exitlocs' : [(250, 0), (250, 470), (0, 250), (500, 250)],
+            'exits' : [ 'south' ],
             'itemlist' : [ items['key3'] ],
-            'itempos' : [ 300, 0 ],
-            'exitindex' : [ 0, 4, 2]
+            'itempos' : [ 250, 150 ],
+            'exitindex' : [ 2 ]
         },
         'area3r3' : {
             'soundtrack' : ['s1'],
-            'background' : ['C5.gif'],
-            'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'east', 'south'],
+            'background' : ['pic/C5.gif'],
+            'exitlocs' : [(250, 40), (250, 470), (0, 250), (500, 250)],
+            'exits' : [ 'north', 'south'],
             'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
-            'exitindex' : [ 3, 5 ]
+            'exitindex' : [ 1, 5 ]
         },
         'area3exit' : {
             'soundtrack' : ['s1'],
-            'background' : ['C6.gif'],
+            'background' : ['pic/C6.gif'],
             'exitlocs' : [(250, 0), (250, 500), (0, 250), (500, 250)],
-            'exits' : [ 'north', 'south' ],
+            'exits' : [ 'south', 'north' ],
             'itemlist' : [ ],
             'itempos' : [ 300, 0 ],
-            'exitindex' : [ 4, 6 ]
+            'exitindex' : [ 6, 4 ]
         }
     }
     

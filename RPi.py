@@ -8,6 +8,8 @@ switches = [ 23, 18, 24, 25 ]
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+# RPi integration file (In the works)
+
 try:
 
     while(True):
