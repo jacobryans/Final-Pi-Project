@@ -5,6 +5,7 @@ import sys
 import time
 import inputbox
 import ctypes
+import pygame
 from pygame import *
 import Tkinter as tk
 from Tkinter import *
@@ -39,6 +40,9 @@ doorp = pygame.image.load('pic/doorp.png')
 # Initializing variables
 gamecomplete = None 
 loading = None
+pygame.mixer.init()
+pygame.mixer.music.load("music/loz_ost.wav")
+pygame.mixer.music.play(0)
 pygame.display.init()
 pygame.display.update()
 
@@ -181,8 +185,10 @@ class PlayerSprite(pygame.sprite.Sprite):
                 # Brings up loadscreen
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
+                musicchange()
+                pygame.mixer.music.play(0)
                 # Delays for a second to mimic loading
-                pygame.time.delay(3000)
+                pygame.time.delay(1000)
                 # Draws the player to the screen
                 player_sprites.draw(screen)
                 # Resets
@@ -195,7 +201,9 @@ class PlayerSprite(pygame.sprite.Sprite):
                 player.room = area3.rooms[0]
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
-                pygame.time.delay(3000)
+                musicchange()
+                pygame.mixer.music.play(0)
+                pygame.time.delay(1000)
                 player_sprites.draw(screen)
                 reset()
                 pygame.display.update()
@@ -204,10 +212,16 @@ class PlayerSprite(pygame.sprite.Sprite):
                 # When the game is complete
                 screen.blit(loadscreen, (0, 0))
                 pygame.display.update()
-                pygame.time.delay(3000)
+                pygame.time.delay(1000)
             else:
                 reset()
                 loading = False
+
+global musicchange
+
+def musicchange():
+    pygame.mixer.music.load(roomvars[player.room.name]['soundtrack'][0])
+    pygame.mixer.music.play(0)
 
 
 # Used for random sprites not categorized to an exit, player, or item (Mainly UI thing)
@@ -473,6 +487,7 @@ while gamecomplete != True:
     player_sprites.add(psprite)
     #Blitting the background
     screen.blit(background,(0,0))
+    # Chooses the music through the roomvars dic
     #Sets up the exits and the items by checking if they're in the room
     stuffsetup()
     #Checks to see if the player collides with any collidables
