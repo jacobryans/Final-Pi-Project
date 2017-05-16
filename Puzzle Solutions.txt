@@ -1,0 +1,9 @@
+Puzzle 1 -
+Solution - theanswertoallanswers
+
+Puzzle 2 -
+Solution - 0
+
+Puzzle 3 - 
+Solution - thedankanky
+Explanation - Decode the characters using Crockford base32 and then use a base64 UTC-8 decoder.
