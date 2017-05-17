@@ -88,7 +88,7 @@ class Area(object):
                     break
                 elif roomtypes[limit] == 'exit' and self.name == 'area3':
                     n.addExit(4, 'north', area3)
-                    n.addExit(0, 'south', area3
+                    n.addExit(0, 'south', area3)
                     # If the room isn't an exit room, appends an exit based on the roomindex, exit, and the area name
                 else:
                     ri = roomvars[self.name + roomtypes[limit]]['exitindex'][elimit]
