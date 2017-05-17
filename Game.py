@@ -287,7 +287,7 @@ class Items(pygame.sprite.Sprite):
                     # Fills the screen to overlay the other sprites
                     screen.fill((0,0,0))
                     # Brings up the inputbox, and queries for an answer
-                    answer = inputbox.ask(screen, "Answer: ")
+                    answer = inputbox.ask(screen, "Answer ")
                     # Resets the screen when answer is inputted
                     reset()
                     # If the answer is correct, you'll get confirmation, if it isn't, you get confirmation you suck. Area is set to complete or not complete
@@ -300,9 +300,9 @@ class Items(pygame.sprite.Sprite):
                         area1.complete = False
                 elif self.name == 'key2':
                     screen.fill((0,0,0))
-                    answer = inputbox.ask(screen, "Answer: ")
+                    answer = inputbox.ask(screen, "Answer ")
                     reset()
-                    if answer == '0':
+                    if answer == '01':
                         ctypes.windll.user32.MessageBoxA(0, "Admin Status Approved. Continue to next area.", "HACKED.OUT", 1)
                         area2.complete = True
                     else:
@@ -310,7 +310,7 @@ class Items(pygame.sprite.Sprite):
                         area2.complete = False
                 elif self.name == 'key3':
                     screen.fill((0,0,0))
-                    answer = inputbox.ask(screen, "Answer: ")
+                    answer = inputbox.ask(screen, "Answer ")
                     reset()
                     if answer == 'thedankanky':
                         ctypes.windll.user32.MessageBoxA(0, "H38ks81 Error. PLAYER HAS COMPLETE CONTROL OF SYSTEM.", "TOU.DEKCAH", 1)
